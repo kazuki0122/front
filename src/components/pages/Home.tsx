@@ -1,9 +1,22 @@
-import React from 'react'
+import React, {useContext} from 'react'
+import { AuthContext } from 'App'
 const Home: React.VFC = () => {
+  const { isSignedIn, currentUser } = useContext(AuthContext)
+
   return (
-    <div>
-      <h2>トップページだよ</h2>
-    </div>
+    <>
+      {
+        isSignedIn && currentUser ? (
+          <>
+            <h1>Signed in successfully!</h1>
+            <h2>Email: {currentUser?.email}</h2>
+            <h2>Name: {currentUser?.name}</h2>
+          </>
+        ) : (
+          <h1>Not signed in</h1>
+        )
+      }
+    </>
   )
 }
 
