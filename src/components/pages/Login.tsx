@@ -84,6 +84,7 @@ const Login: React.VFC = () => {
                 bg: 'orange.400',
               }}
               onClick={loginUser}
+              disabled={ !email || !password ? true : false}
               >
               ログイン
             </Button>

@@ -11,6 +11,7 @@ import {
   Stack,
   Button,
   useColorModeValue,
+  InputRightElement
 } from '@chakra-ui/react';
 import { useHistory } from 'react-router';
 
@@ -20,9 +21,12 @@ const Signup: React.VFC = () => {
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("")
+  const [show, setShow] = useState<boolean>(false)
   // const [alertMessageOpen, setAlertMessageOpen] = useState<boolean>(false)
 
   const history =  useHistory()
+
+  const handleClick = () => setShow(!show)
 
   const createUser = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -88,7 +92,13 @@ const Signup: React.VFC = () => {
                 placeholder="パスワード" 
                 value={password}
                 onChange={event => setPassword(event.target.value)}
-              />
+                type={show ? 'text' : 'password'}
+                />
+                <InputRightElement width="4.5rem">
+                  <Button h="1.75rem" size="sm" onClick={handleClick}>
+                    {show ? "Hide" : "Show"}
+                  </Button>
+                </InputRightElement>
           </FormControl>
           <FormControl id="password">
             <FormLabel>パスワード確認用</FormLabel>
@@ -96,6 +106,7 @@ const Signup: React.VFC = () => {
                 placeholder="パスワード確認用" 
                 value={passwordConfirmation}
                 onChange={event => setPasswordConfirmation(event.target.value)}
+                type={show ? 'text' : 'password'}
               />
           </FormControl>
           <Stack>
@@ -106,6 +117,7 @@ const Signup: React.VFC = () => {
                 bg: 'orange.400',
               }}
               onClick={createUser}
+              disabled={!name || !email || !password || !passwordConfirmation ? true : false}
               >
               新規登録
             </Button>
