@@ -7,7 +7,10 @@ import {
   Stack,
   Button,
   useColorModeValue,
+  InputGroup,
+  InputRightElement,
 } from '@chakra-ui/react';
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { AuthContext } from 'App';
 import { SignInParams } from 'interfaces';
 import { signIn } from 'lib/api/auth';
@@ -15,10 +18,13 @@ import Cookies from 'js-cookie';
 import { useHistory } from "react-router-dom"
 
 const Login: React.VFC = () => {
+  const [show, setShow] = useState(false)
   const history = useHistory()
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext)
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
+
+  const handleClick = () => setShow(!show)
 
   const loginUser = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -63,18 +69,28 @@ const Login: React.VFC = () => {
           <FormControl id="email">
             <FormLabel>メールアドレス</FormLabel>
             <Input 
-              placeholder="メールアドレス" 
+              placeholder="test@test.com" 
               value={email}
               onChange={event => setEmail(event.target.value)}
             />
           </FormControl>
           <FormControl id="password">
             <FormLabel>パスワード</FormLabel>
+            <InputGroup>
               <Input 
-                placeholder="パスワード" 
+                placeholder="******" 
                 value={password}
+                type={show ? 'text' : 'password'}
                 onChange={event => setPassword(event.target.value)}
               />
+              <InputRightElement width='3rem'>
+                {show ?
+                  <ViewOffIcon cursor="pointer" h='1.5rem' size='sm' onClick={handleClick}  />
+                  :
+                  <ViewIcon cursor="pointer" h='1.5rem' size='sm' onClick={handleClick} />
+                }
+              </InputRightElement>
+            </InputGroup>
             </FormControl>
           <Stack>
             <Button

@@ -3,6 +3,7 @@ import { AuthContext } from 'App';
 import { signUp } from 'lib/api/auth';
 import { SignUpParams } from 'interfaces';
 import Cookies from "js-cookie"
+import { useHistory } from 'react-router';
 import {
   Box,
   FormControl,
@@ -11,9 +12,10 @@ import {
   Stack,
   Button,
   useColorModeValue,
-  InputRightElement
+  InputRightElement,
+  InputGroup,
 } from '@chakra-ui/react';
-import { useHistory } from 'react-router';
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 
 const Signup: React.VFC = () => {
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext)
@@ -73,7 +75,7 @@ const Signup: React.VFC = () => {
           <FormControl id="nick-name">
             <FormLabel>名前</FormLabel>
             <Input 
-              placeholder="名前"
+              placeholder="テスト太郎"
               value={name}
               onChange={event => setName(event.target.value)}
             />
@@ -81,32 +83,36 @@ const Signup: React.VFC = () => {
           <FormControl id="email">
             <FormLabel>メールアドレス</FormLabel>
             <Input 
-              placeholder="メールアドレス" 
+              placeholder="test@test.com" 
               value={email}
               onChange={event => setEmail(event.target.value)}
             />
           </FormControl>
           <FormControl id="password">
             <FormLabel>パスワード</FormLabel>
+            <InputGroup>
               <Input 
-                placeholder="パスワード" 
+                placeholder="******"
                 value={password}
                 onChange={event => setPassword(event.target.value)}
                 type={show ? 'text' : 'password'}
-                />
-                <InputRightElement width="4.5rem">
-                  <Button h="1.75rem" size="sm" onClick={handleClick}>
-                    {show ? "Hide" : "Show"}
-                  </Button>
-                </InputRightElement>
+              />
+              <InputRightElement width='3rem'>
+                {show ? 
+                  <ViewOffIcon cursor="pointer" h='1.5rem' size='sm' onClick={handleClick} />
+                  :
+                  <ViewIcon cursor="pointer" h='1.5rem' size='sm' onClick={handleClick} /> 
+                }
+              </InputRightElement>
+            </InputGroup>
           </FormControl>
           <FormControl id="password">
             <FormLabel>パスワード確認用</FormLabel>
               <Input 
-                placeholder="パスワード確認用" 
+                placeholder="******"
                 value={passwordConfirmation}
                 onChange={event => setPasswordConfirmation(event.target.value)}
-                type={show ? 'text' : 'password'}
+                type={'password'}
               />
           </FormControl>
           <Stack>
