@@ -16,16 +16,19 @@ import { SignInParams } from 'interfaces';
 import { signIn } from 'lib/api/auth';
 import Cookies from 'js-cookie';
 import { useHistory } from "react-router-dom"
+import useMessage from 'hooks/useMessage';
 
 const Login: React.VFC = () => {
   const [show, setShow] = useState(false)
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
   const history = useHistory()
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext)
-  const [email, setEmail] = useState<string>("")
-  const [password, setPassword] = useState<string>("")
 
+  
+  const {showMessage} = useMessage()
+  
   const handleClick = () => setShow(!show)
-
   const loginUser = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
 
@@ -48,14 +51,13 @@ const Login: React.VFC = () => {
         setCurrentUser(res.data.data)
 
         history.push("/")
-
-        console.log("Signed in successfully!")
+        showMessage({title: 'ログインしました', status: 'success'})
       } else {
         // setAlertMessageOpen(true)
       }
     } catch (err) {
       console.log(err)
-      // setAlertMessageOpen(true)
+      showMessage({title: 'ログインに失敗しました', status: 'error'})
     }
   }
   return (

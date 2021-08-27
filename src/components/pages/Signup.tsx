@@ -16,17 +16,18 @@ import {
   InputGroup,
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import useMessage from 'hooks/useMessage';
 
 const Signup: React.VFC = () => {
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext)
-  const [name, setName] = useState<string>("")
-  const [email, setEmail] = useState<string>("")
-  const [password, setPassword] = useState<string>("")
-  const [passwordConfirmation, setPasswordConfirmation] = useState<string>("")
-  const [show, setShow] = useState<boolean>(false)
-  // const [alertMessageOpen, setAlertMessageOpen] = useState<boolean>(false)
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [passwordConfirmation, setPasswordConfirmation] = useState("")
+  const [show, setShow] = useState(false)
 
   const history =  useHistory()
+  const {showMessage} = useMessage()
 
   const handleClick = () => setShow(!show)
 
@@ -54,13 +55,13 @@ const Signup: React.VFC = () => {
 
         history.push("/")
 
-        console.log("Signed in successfully!")
+        showMessage({title: 'ユーザー登録が完了しました', status: 'success'})
       } else {
         // setAlertMessageOpen(true)
       }
     } catch (err) {
       console.log(err)
-      // setAlertMessageOpen(true)
+      showMessage({title: 'ユーザー登録に失敗しました', status: 'error'})
     }
   }
 
