@@ -1,21 +1,23 @@
 import React, {useContext} from 'react'
 import { AuthContext } from 'App'
-const Home: React.VFC = () => {
-  const { isSignedIn, currentUser } = useContext(AuthContext)
+import { 
+  Box,
+  Image,
+ } from '@chakra-ui/react'
 
+const Home: React.VFC = () => {
+  const { currentUser } = useContext(AuthContext)
   return (
     <>
-      {
-        isSignedIn && currentUser ? (
-          <>
-            <h1>Signed in successfully!</h1>
-            <h2>Email: {currentUser?.email}</h2>
-            <h2>Name: {currentUser?.name}</h2>
-          </>
-        ) : (
-          <h1>Not signed in</h1>
-        )
-      }
+      <Box>
+        <Box mx={'auto'} maxW={'lg'} textAlign={['center']} >グループを作成しましょう！</Box>
+        <Image 
+          mx={'auto'}
+          src={`${process.env.PUBLIC_URL}/macaroni-1522.png`} 
+          alt="Logo" 
+          boxSize="600px"
+        />
+      </Box>
     </>
   )
 }
