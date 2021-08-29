@@ -9,6 +9,9 @@ import {
   useColorModeValue,
   InputGroup,
   InputRightElement,
+  Heading,
+  Text,
+  Link,
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { AuthContext } from 'App';
@@ -29,6 +32,7 @@ const Login: React.VFC = () => {
   const {showMessage} = useMessage()
   
   const handleClick = () => setShow(!show)
+  const goSignup = () => history.push('/signup')
   const loginUser = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
 
@@ -53,7 +57,7 @@ const Login: React.VFC = () => {
         history.push("/")
         showMessage({title: 'ログインしました', status: 'success'})
       } else {
-        // setAlertMessageOpen(true)
+
       }
     } catch (err) {
       console.log(err)
@@ -61,53 +65,61 @@ const Login: React.VFC = () => {
     }
   }
   return (
-    <Box spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
-      <Box
-        rounded={'lg'}
-        bg={useColorModeValue('white', 'gray.700')}
-        boxShadow={'xl'}
-        p={8}>
-        <Stack spacing={6}>
-          <FormControl id="email">
-            <FormLabel>メールアドレス</FormLabel>
-            <Input 
-              placeholder="test@test.com" 
-              value={email}
-              onChange={event => setEmail(event.target.value)}
-            />
-          </FormControl>
-          <FormControl id="password">
-            <FormLabel>パスワード</FormLabel>
-            <InputGroup>
+    <Box mx={'auto'} maxW={'lg'} py={12} px={6}>
+      <Stack align={'center'}>
+        <Heading fontSize={'4xl'}>ログイン</Heading>
+        <Text fontSize={'lg'} color={'gray.600'}>
+          まだアカウントをお持ちでない方は <Link onClick={goSignup} color={'blue.400'}>こちら</Link> 
+        </Text>
+      </Stack>
+      <Box mx={'auto'} maxW={'lg'} py={12} px={6}>
+        <Box
+          rounded={'lg'}
+          bg={useColorModeValue('white', 'gray.700')}
+          boxShadow={'xl'}
+          p={8}>
+          <Stack spacing={6}>
+            <FormControl id="email">
+              <FormLabel>メールアドレス</FormLabel>
               <Input 
-                placeholder="******" 
-                value={password}
-                type={show ? 'text' : 'password'}
-                onChange={event => setPassword(event.target.value)}
+                placeholder="test@test.com" 
+                value={email}
+                onChange={event => setEmail(event.target.value)}
               />
-              <InputRightElement width='3rem'>
-                {show ?
-                  <ViewOffIcon cursor="pointer" h='1.5rem' size='sm' onClick={handleClick}  />
-                  :
-                  <ViewIcon cursor="pointer" h='1.5rem' size='sm' onClick={handleClick} />
-                }
-              </InputRightElement>
-            </InputGroup>
             </FormControl>
-          <Stack>
-            <Button
-              bg={'orange.300'}
-              color={'white'}
-              _hover={{
-                bg: 'orange.400',
-              }}
-              onClick={loginUser}
-              disabled={ !email || !password ? true : false}
-              >
-              ログイン
-            </Button>
+            <FormControl id="password">
+              <FormLabel>パスワード</FormLabel>
+              <InputGroup>
+                <Input 
+                  placeholder="******" 
+                  value={password}
+                  type={show ? 'text' : 'password'}
+                  onChange={event => setPassword(event.target.value)}
+                />
+                <InputRightElement width='3rem'>
+                  {show ?
+                    <ViewOffIcon cursor="pointer" h='1.5rem' size='sm' onClick={handleClick}  />
+                    :
+                    <ViewIcon cursor="pointer" h='1.5rem' size='sm' onClick={handleClick} />
+                  }
+                </InputRightElement>
+              </InputGroup>
+              </FormControl>
+            <Stack>
+              <Button
+                bg={'orange.300'}
+                color={'white'}
+                _hover={{
+                  bg: 'orange.400',
+                }}
+                onClick={loginUser}
+                disabled={ !email || !password ? true : false}
+                >
+                ログイン
+              </Button>
+            </Stack>
           </Stack>
-        </Stack>
+        </Box>
       </Box>
     </Box>
   );

@@ -14,6 +14,7 @@ import {
   useColorModeValue,
   InputRightElement,
   InputGroup,
+  Heading,
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import useMessage from 'hooks/useMessage';
@@ -54,10 +55,9 @@ const Signup: React.VFC = () => {
         setCurrentUser(res.data.data)
 
         history.push("/")
-
         showMessage({title: 'ユーザー登録が完了しました', status: 'success'})
       } else {
-        // setAlertMessageOpen(true)
+
       }
     } catch (err) {
       console.log(err)
@@ -66,56 +66,60 @@ const Signup: React.VFC = () => {
   }
 
   return (
-    <Box spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
-      <Box
-        rounded={'lg'}
-        bg={useColorModeValue('white', 'gray.700')}
-        boxShadow={'xl'}
-        p={8}>
-        <Stack spacing={6}>
-          <FormControl id="nick-name">
-            <FormLabel>名前</FormLabel>
-            <Input 
-              placeholder="テスト太郎"
-              value={name}
-              onChange={event => setName(event.target.value)}
-            />
-          </FormControl>
-          <FormControl id="email">
-            <FormLabel>メールアドレス</FormLabel>
-            <Input 
-              placeholder="test@test.com" 
-              value={email}
-              onChange={event => setEmail(event.target.value)}
-            />
-          </FormControl>
-          <FormControl id="password">
-            <FormLabel>パスワード</FormLabel>
-            <InputGroup>
+    <Box mx={'auto'} maxW={'lg'} py={12} px={6}>
+      <Stack align={'center'}>
+        <Heading fontSize={'4xl'}>新規ユーザー登録</Heading>
+      </Stack>
+      <Box spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+        <Box
+          rounded={'lg'}
+          bg={useColorModeValue('white', 'gray.700')}
+          boxShadow={'xl'}
+          p={8}>
+          <Stack spacing={6}>
+            <FormControl id="nick-name">
+              <FormLabel>名前</FormLabel>
               <Input 
-                placeholder="******"
-                value={password}
-                onChange={event => setPassword(event.target.value)}
-                type={show ? 'text' : 'password'}
+                placeholder="テスト太郎"
+                value={name}
+                onChange={event => setName(event.target.value)}
               />
-              <InputRightElement width='3rem'>
-                {show ? 
-                  <ViewOffIcon cursor="pointer" h='1.5rem' size='sm' onClick={handleClick} />
-                  :
-                  <ViewIcon cursor="pointer" h='1.5rem' size='sm' onClick={handleClick} /> 
-                }
-              </InputRightElement>
-            </InputGroup>
-          </FormControl>
-          <FormControl id="password">
-            <FormLabel>パスワード確認用</FormLabel>
+            </FormControl>
+            <FormControl id="email">
+              <FormLabel>メールアドレス</FormLabel>
               <Input 
-                placeholder="******"
-                value={passwordConfirmation}
-                onChange={event => setPasswordConfirmation(event.target.value)}
-                type={'password'}
+                placeholder="test@test.com" 
+                value={email}
+                onChange={event => setEmail(event.target.value)}
               />
-          </FormControl>
+            </FormControl>
+            <FormControl id="password">
+              <FormLabel>パスワード</FormLabel>
+              <InputGroup>
+                <Input 
+                  placeholder="******"
+                  value={password}
+                  onChange={event => setPassword(event.target.value)}
+                  type={show ? 'text' : 'password'}
+                />
+                <InputRightElement width='3rem'>
+                  {show ? 
+                    <ViewOffIcon cursor="pointer" h='1.5rem' size='sm' onClick={handleClick} />
+                    :
+                    <ViewIcon cursor="pointer" h='1.5rem' size='sm' onClick={handleClick} /> 
+                  }
+                </InputRightElement>
+              </InputGroup>
+            </FormControl>
+            <FormControl id="password">
+              <FormLabel>パスワード確認用</FormLabel>
+                <Input 
+                  placeholder="******"
+                  value={passwordConfirmation}
+                  onChange={event => setPasswordConfirmation(event.target.value)}
+                  type={'password'}
+                />
+            </FormControl>
           <Stack>
             <Button
               bg={'orange.300'}
@@ -132,6 +136,7 @@ const Signup: React.VFC = () => {
         </Stack>
       </Box>
     </Box>
+  </Box>
   );
 }
 
