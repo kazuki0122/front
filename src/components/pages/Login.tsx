@@ -16,7 +16,7 @@ import {
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { AuthContext } from 'App';
 import { SignInParams } from 'interfaces';
-import { signIn } from 'lib/api/auth';
+import { signIn } from 'api/user/auth';
 import Cookies from 'js-cookie';
 import { useHistory } from "react-router-dom"
 import useMessage from 'hooks/useMessage';

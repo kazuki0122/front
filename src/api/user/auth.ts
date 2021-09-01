@@ -1,4 +1,4 @@
-import client from "lib/api/client"
+import client from "api/user/client"
 import Cookies from "js-cookie"
 
 import { SignUpParams, SignInParams } from "interfaces/index"

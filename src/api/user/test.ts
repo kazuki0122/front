@@ -1,4 +1,4 @@
-import client from "lib/api/client"
+import client from "api/api/client"
 
 // 動作確認用
 export const execTest = () => {

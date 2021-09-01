@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react'
 import { AuthContext } from 'App';
-import { signUp } from 'lib/api/auth';
+import { signUp } from 'api/user/auth';
 import { SignUpParams } from 'interfaces';
 import Cookies from "js-cookie"
 import { useHistory } from 'react-router';
