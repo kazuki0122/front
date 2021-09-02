@@ -3,6 +3,7 @@ export interface SignUpParams {
   name: string
   email: string
   password: string
+  phone_number: string
   passwordConfirmation: string
 }
 
@@ -20,6 +21,7 @@ export interface User {
   email: string
   name: string
   nickname: string
+  phone_number: string
   image?: string
   allowPasswordChange: boolean
   created_at: Date

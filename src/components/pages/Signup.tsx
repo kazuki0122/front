@@ -15,14 +15,16 @@ import {
   InputRightElement,
   InputGroup,
   Heading,
+  InputLeftElement,
 } from '@chakra-ui/react';
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { EmailIcon, PhoneIcon, ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import useMessage from 'hooks/useMessage';
 
 const Signup: React.VFC = () => {
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext)
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
+  const [phoneNumber, setPshoneNumber] = useState("")
   const [password, setPassword] = useState("")
   const [passwordConfirmation, setPasswordConfirmation] = useState("")
   const [show, setShow] = useState(false)
@@ -38,6 +40,7 @@ const Signup: React.VFC = () => {
     const params: SignUpParams = {
       name: name,
       email: email,
+      phone_number: phoneNumber,
       password: password,
       passwordConfirmation: passwordConfirmation
     }
@@ -87,11 +90,31 @@ const Signup: React.VFC = () => {
             </FormControl>
             <FormControl id="email">
               <FormLabel>メールアドレス</FormLabel>
+              <InputGroup>
+              <InputLeftElement 
+                pointerEvents="none"
+                children={<EmailIcon color="gray.300" />}
+              />
               <Input 
                 placeholder="test@test.com" 
                 value={email}
                 onChange={event => setEmail(event.target.value)}
               />
+              </InputGroup>
+            </FormControl>
+            <FormControl id="phone-number">
+              <FormLabel>電話番号</FormLabel>
+              <InputGroup>
+                <InputLeftElement
+                  pointerEvents="none"
+                  children={<PhoneIcon color="gray.300" />}
+                />
+                <Input 
+                  placeholder="00000000000"
+                  value={phoneNumber}
+                  onChange={event => setPshoneNumber(event.target.value)}
+                />
+              </InputGroup>
             </FormControl>
             <FormControl id="password">
               <FormLabel>パスワード</FormLabel>
