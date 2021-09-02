@@ -39,7 +39,13 @@ const GroupForm: React.VFC<Props> = (props) => {
       .get('http://localhost:3001/api/v1/users')
       .then((res) => {
         const users = res.data.data
-        const newUsers = users.filter((user: User) =>  user.id !== currentUser?.id)
+        const newUsers = users.filter((user: User) =>  {
+          console.log('groupのuserのid',user.id);
+          console.log('groupのcurrentUserのid',currentUser?.id);
+          return  user.id !== currentUser?.id
+        })
+        console.log('newUsers', newUsers);
+        
         setUsers(newUsers)
       })
       .catch((err) => { 

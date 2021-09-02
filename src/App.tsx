@@ -14,6 +14,7 @@ export const AuthContext = createContext({} as {
   setIsSignedIn: React.Dispatch<React.SetStateAction<boolean>>
   currentUser: User | undefined
   setCurrentUser: React.Dispatch<React.SetStateAction<User | undefined>>
+  handleGetCurrentUser: () => Promise<void>
 })
 
 const App: React.VFC = () => {
@@ -25,11 +26,9 @@ const App: React.VFC = () => {
   const handleGetCurrentUser = async () => {
     try {
       const res = await getCurrentUser()
-
       if (res?.data.isLogin === true) {
         setIsSignedIn(true)
         setCurrentUser(res?.data.data)
-        
         console.log(res?.data.data)
       } else {
         console.log("No current user")
@@ -49,7 +48,7 @@ const App: React.VFC = () => {
   return(
     <div className="App">
       <ChakraProvider>
-        <AuthContext.Provider value={{ loading, setLoading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser}}>
+        <AuthContext.Provider value={{ loading, setLoading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser, handleGetCurrentUser}}>
           <BrowserRouter>
             <Header />
              <Router />
