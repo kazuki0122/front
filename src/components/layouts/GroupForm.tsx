@@ -17,6 +17,7 @@ import axios from 'axios'
 import { AuthContext } from 'App'
 import { User } from 'interfaces'
 import { useHistory } from 'react-router-dom'
+import useMessage from 'hooks/useMessage';
 
 type Props = {
   onCloseModal: () => void;
@@ -30,6 +31,7 @@ const GroupForm: React.VFC<Props> = (props) => {
   const [sendUsers, setSendUsers] = useState([]);
   const [groupName, setGroupName] = useState('');
   const history = useHistory();
+  const { showMessage } = useMessage()
 
   // 全てのユーザーデーターを取得
   const fetchUsers = () => {
@@ -61,9 +63,29 @@ const GroupForm: React.VFC<Props> = (props) => {
     setGroupName(event.target.value)
     console.log(groupName);
   }
+  const params = {
+    group: {
+      name: groupName,
+      user_ids: sendUsers
+    }
+  }
 
   const creatGroup = () => {
-    history.push('/group/:id')
+    axios
+      .post('http://localhost:3001/api/v1/groups', params)
+      .then((res) => {
+        if (res.data.status === "success") {
+          console.log(res.data.data);
+          console.log(res.data.data.id)
+          history.push(`/group/${res.data.data.id}`)
+        } else {
+          console.log(res);
+          showMessage({title: `${res.data.data.name}というグループは既に存在します`, status: 'error'})
+        }
+      })
+      .catch((err) => { 
+      console.log(err);
+    });
   }
 
   return (

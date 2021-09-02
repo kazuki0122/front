@@ -28,7 +28,6 @@ const Login: React.VFC = () => {
   const history = useHistory()
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext)
 
-  
   const {showMessage} = useMessage()
   
   const handleClick = () => setShow(!show)
@@ -56,9 +55,7 @@ const Login: React.VFC = () => {
 
         history.push("/")
         showMessage({title: 'ログインしました', status: 'success'})
-      } else {
-
-      }
+      } 
     } catch (err) {
       console.log(err)
       showMessage({title: 'ログインに失敗しました', status: 'error'})
