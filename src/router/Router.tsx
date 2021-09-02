@@ -1,5 +1,7 @@
 import { AuthContext } from "App"
 import Group from "components/pages/Group"
+import Select from "components/pages/Select"
+import List from "components/pages/Select"
 import React, { useContext } from "react"
 import { Route, Switch, Redirect } from "react-router-dom"
 import Home from "../components/pages/Home"
@@ -32,6 +34,10 @@ const Router: React.VFC = () => {
         <Route path="/group/:id">
           <Group />
         </Route>
+        <Route path="/select">
+          <Select />
+        </Route>
+
     </Switch>
   )
 }

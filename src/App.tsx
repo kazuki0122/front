@@ -3,7 +3,7 @@ import { ChakraProvider } from "@chakra-ui/react"
 import { BrowserRouter} from "react-router-dom";
 import Router from "router/Router";
 import Header from "components/layouts/Header";
-import { getCurrentUser } from "lib/api/auth";
+import { getCurrentUser } from "api/user/auth";
 import { User } from "interfaces/index"
 
 // グローバルで扱う変数・関数
@@ -17,8 +17,8 @@ export const AuthContext = createContext({} as {
 })
 
 const App: React.VFC = () => {
-  const [loading, setLoading] = useState<boolean>(true)
-  const [isSignedIn, setIsSignedIn] = useState<boolean>(false)
+  const [loading, setLoading] = useState(true)
+  const [isSignedIn, setIsSignedIn] = useState(false)
   const [currentUser, setCurrentUser] = useState<User | undefined>()
 
   // 認証済みのユーザーがいるかどうかチェック
