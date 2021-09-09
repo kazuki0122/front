@@ -4,8 +4,6 @@ import { useContext } from "react";
 
 const useFriendRequest = () => {
   const { currentUser } = useContext(AuthContext)
-  // const [requestFriends, setRequestFriends] = useState< number[]>([])
-  
   const friendRequest = (id: number, setRequestFriends: React.Dispatch<React.SetStateAction<number[]>>) => {
     sendingFriendRequest(id, Number(currentUser?.id))
     .then((res) => {

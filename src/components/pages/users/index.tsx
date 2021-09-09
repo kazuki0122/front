@@ -5,7 +5,7 @@ import { User } from 'interfaces';
 import Pagination from './Pagination'
 import useFetchUser from 'hooks/useFetchUser';
 import useFriendRequest from 'hooks/useFriendRequest';
-import { fetchSendedFriendRequest } from 'api/friend/fetchUser';
+import useFetchSendedRequest from 'hooks/useFetchSendedRequest';
 
 const Users: React.VFC = () => {
   const [requestFriends, setRequestFriends] = useState< number[]>([])
@@ -15,6 +15,8 @@ const Users: React.VFC = () => {
   const { fetchUser, count, current, limit_value, next, pages, privious, users } = useFetchUser()
   // 友達申請
   const { friendRequest } = useFriendRequest()
+  // 申請状況
+  const { fetchSendedRequest } = useFetchSendedRequest()
 
   // apiに送るページ番号
   const [pageData, setPageData] = useState(1) 
@@ -29,7 +31,7 @@ const Users: React.VFC = () => {
 
   // 申請状況を取得
   useEffect(() => {
-    fetchSendedFriendRequest(setRequestFriends)
+    fetchSendedRequest(setRequestFriends)
   },[])
 
   return (

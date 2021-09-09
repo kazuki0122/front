@@ -9,7 +9,7 @@ const Mypage: React.VFC = () => {
     fetchSendedFriendRequest()
     .then((res) => {
       console.log('マイページのindexから返ってきた値',res.data);
-      console.log('申請されたユーザーのid',res.data.approval);
+      console.log('申請を送ってきたユーザーのid',res.data.approval);
       setApproval(res.data.approval)
     })
     .catch((err) => {

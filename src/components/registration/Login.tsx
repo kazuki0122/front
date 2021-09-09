@@ -23,7 +23,6 @@ const Login: React.VFC = () => {
   const [password, setPassword] = useState("")
   const history = useHistory()
   const {loginUser} = useLogin()
-
   const handleClick = () => setShow(!show)
   const goSignup = () => history.push('/signup')
 
