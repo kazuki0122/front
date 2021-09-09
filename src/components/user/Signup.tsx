@@ -1,9 +1,4 @@
-import React, {useState, useContext} from 'react'
-import { AuthContext } from 'App';
-import { signUp } from 'api/user/auth';
-import { SignUpParams } from 'interfaces';
-import Cookies from "js-cookie"
-import { useHistory } from 'react-router';
+import React, {useState} from 'react'
 import {
   Box,
   FormControl,
@@ -18,54 +13,23 @@ import {
   InputLeftElement,
 } from '@chakra-ui/react';
 import { EmailIcon, PhoneIcon, ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import useMessage from 'hooks/useMessage';
+import useSignup from 'hooks/useSignup';
 
 const Signup: React.VFC = () => {
-  const { setIsSignedIn, setCurrentUser } = useContext(AuthContext)
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [phoneNumber, setPshoneNumber] = useState("")
   const [password, setPassword] = useState("")
   const [passwordConfirmation, setPasswordConfirmation] = useState("")
   const [show, setShow] = useState(false)
-
-  const history =  useHistory()
-  const {showMessage} = useMessage()
+  const {createUser} = useSignup()
 
   const handleClick = () => setShow(!show)
 
-  const createUser = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  // ユーザー登録
+  const handleCreateUser = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-
-    const params: SignUpParams = {
-      name: name,
-      email: email,
-      phone_number: phoneNumber,
-      password: password,
-      passwordConfirmation: passwordConfirmation
-    }
-
-    try {
-      const res = await signUp(params)
-      console.log(res)
-
-      if (res.status === 200) {
-        Cookies.set("_access_token", res.headers["access-token"])
-        Cookies.set("_client", res.headers["client"])
-        Cookies.set("_uid", res.headers["uid"])
-
-        setIsSignedIn(true)
-        setCurrentUser(res.data.data)
-
-        history.push("/")
-        showMessage({title: 'ユーザー登録が完了しました', status: 'success'})
-      } else {
-
-      }
-    } catch (err) {
-      console.log(err)
-      showMessage({title: 'ユーザー登録に失敗しました', status: 'error'})
-    }
+    createUser(name, email, phoneNumber, password, passwordConfirmation)
   }
 
   return (
@@ -150,7 +114,7 @@ const Signup: React.VFC = () => {
               _hover={{
                 bg: 'orange.400',
               }}
-              onClick={createUser}
+              onClick={handleCreateUser}
               disabled={!name || !email || !password || !passwordConfirmation ? true : false}
               >
               新規登録

@@ -14,10 +14,9 @@ import {
   Stack,  
   useDisclosure 
 } from '@chakra-ui/react'
-import { signOut } from 'api/user/auth'
 import { AuthContext } from 'App'
-import Cookies from 'js-cookie'
-import GroupForm from './GroupForm'
+import GroupForm from '../modals/GroupForm'
+import useSignOut from 'hooks/useSignout'
 
 type Props = {
   onClose: () => void;
@@ -26,39 +25,21 @@ type Props = {
 
 const HamburgerMenu:React.VFC<Props> = (props) => {
   const { onClose,isOpen } = props;
-  const { isSignedIn, setIsSignedIn } = useContext(AuthContext)
-  
+  const { isSignedIn } = useContext(AuthContext)
+  const { signOutUser } = useSignOut()
   const { 
     isOpen: isOpenModal,
     onOpen: onOpenModal, 
     onClose: onCloseModal 
   } = useDisclosure()
-
   const history = useHistory();
 
-  const onClickLogin = () => history.push('/login');
-  const onClickSignUp = () => history.push('/signup');
-
-  const handleSignOut = async () => {
-    try {
-      const res = await signOut()
-      if (res.data.success === true) {
-        // サインアウト時には各Cookieを削除
-        Cookies.remove("_access_token")
-        Cookies.remove("_client")
-        Cookies.remove("_uid")
-
-        setIsSignedIn(false)
-        history.push("/login")
-
-        console.log("Succeeded in sign out")
-      } else {
-        console.log("Failed in sign out")
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  }
+  // 画面移動
+  const moveLogin = () => history.push('/login');
+  const moveSignUp = () => history.push('/signup');
+  const moveMypage = () => history.push("/mypage");
+  // ログアウト
+  const onClickSignOut = () => signOutUser();
 
   return (
     <Drawer
@@ -77,7 +58,7 @@ const HamburgerMenu:React.VFC<Props> = (props) => {
             <Stack spacing={4} cursor="pointer" position="relative">
               <Divider />
               <Flex justify={'center'}>
-                <Box onClick={handleSignOut}>
+                <Box onClick={onClickSignOut}>
                   ログアウト
                 </Box>
                 <ChevronRightIcon w={6} h={6} position="absolute" right='0' />
@@ -92,7 +73,7 @@ const HamburgerMenu:React.VFC<Props> = (props) => {
                 </Flex>
               <Divider />
                 <Flex justify={'center'}>
-                  <Box>
+                  <Box onClick={moveMypage}>
                     マイページ
                   </Box>
                   <ChevronRightIcon w={6} h={6} position="absolute" right='0' />
@@ -105,14 +86,14 @@ const HamburgerMenu:React.VFC<Props> = (props) => {
               <Stack spacing={4} cursor="pointer" position="relative">
                 <Divider />
                   <Flex justify={'center'}>
-                    <Box onClick={onClickLogin}>
+                    <Box onClick={moveLogin}>
                       ログイン
                     </Box>
                     <ChevronRightIcon w={6} h={6} position="absolute" right='0' />
                   </Flex>
                 <Divider  />
                   <Flex justify={'center'}>
-                    <Box onClick={onClickSignUp} >
+                    <Box onClick={moveSignUp} >
                       新規登録
                     </Box>
                     <ChevronRightIcon w={6} h={6} position="absolute" right='0' />
