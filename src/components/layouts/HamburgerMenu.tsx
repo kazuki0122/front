@@ -38,6 +38,7 @@ const HamburgerMenu:React.VFC<Props> = (props) => {
   const moveLogin = () => history.push('/login');
   const moveSignUp = () => history.push('/signup');
   const moveMypage = () => history.push("/mypage");
+  const moveUsers = () => history.push("/users");
   // ログアウト
   const onClickSignOut = () => signOutUser();
 
@@ -79,6 +80,12 @@ const HamburgerMenu:React.VFC<Props> = (props) => {
                   <ChevronRightIcon w={6} h={6} position="absolute" right='0' />
                 </Flex>
               <Divider />
+              <Flex justify={'center'}>
+                  <Box onClick={moveUsers}>
+                    友達追加
+                  </Box>
+                  <ChevronRightIcon w={6} h={6} position="absolute" right='0' />
+                </Flex>
               </Stack>
             </>
             :

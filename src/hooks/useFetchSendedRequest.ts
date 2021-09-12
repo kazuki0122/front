@@ -1,7 +1,8 @@
 import { fetchSendedFriendRequest } from 'api/friend/fetchUser';
+import { useCallback } from 'react';
 
 const useFetchSendedRequest = () => {
-  const fetchSendedRequest = (setRequestFriends: React.Dispatch<React.SetStateAction<number[]>>) => {
+  const fetchSendedRequest = useCallback((setRequestFriends: React.Dispatch<React.SetStateAction<number[]>>) => {
     fetchSendedFriendRequest()
     .then((res) => {
       console.log('indexから返ってきた値',res.data);
@@ -10,7 +11,7 @@ const useFetchSendedRequest = () => {
     .catch((err) => {
       console.log(err);
     })
-  }
+  },[])
   return { fetchSendedRequest }
 }
 

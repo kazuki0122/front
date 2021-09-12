@@ -1,5 +1,5 @@
 import { fetchUserData } from "api/friend/fetchUser"
-import { useState } from "react"
+import { useCallback, useState } from "react"
 
 const useFetchUser = () => {
   // ユーザーの情報
@@ -13,7 +13,7 @@ const useFetchUser = () => {
   const [pages, setPages] = useState<number | undefined>()
   const [privious, setPrivious] = useState()
 
-  const fetchUser = (pageData: number) => {
+  const fetchUser = useCallback((pageData: number) => {
     try {
       fetchUserData(pageData)
       .then((res) => {
@@ -37,7 +37,7 @@ const useFetchUser = () => {
     } catch(error) {
       console.error('失敗です', error);
     }
-  }
+  },[])
   return {fetchUser, count, current, limit_value, next, pages, privious, users}
 }
 

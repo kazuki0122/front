@@ -10,7 +10,6 @@ import useFetchSendedRequest from 'hooks/useFetchSendedRequest';
 const Users: React.VFC = () => {
   const [requestFriends, setRequestFriends] = useState< number[]>([])
 
-  // hooks 
   // ユーザー情報とページネーションの情報を取得
   const { fetchUser, count, current, limit_value, next, pages, privious, users } = useFetchUser()
   // 友達申請
@@ -24,7 +23,7 @@ const Users: React.VFC = () => {
   // ユーザー情報の取得
   useEffect(() => {
     fetchUser(pageData)
-  },[pageData])
+  },[pageData, fetchUser])
 
   // 友達申請
   const handleFriendRequest = (id: number) => friendRequest(id, setRequestFriends)
@@ -32,7 +31,7 @@ const Users: React.VFC = () => {
   // 申請状況を取得
   useEffect(() => {
     fetchSendedRequest(setRequestFriends)
-  },[])
+  },[fetchSendedRequest])
 
   return (
     <>

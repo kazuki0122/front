@@ -25,10 +25,12 @@ const App: React.VFC = () => {
   // 認証済みのユーザーがいるかどうかチェック
   const handleGetCurrentUser = async () => {
     try {
+      console.log('App.tsx動いてるよ');
       const res = await getCurrentUser()
       if (res?.data.isLogin === true) {
         setIsSignedIn(true)
         setCurrentUser(res?.data.data)
+        // currentUserのレコード
         console.log(res?.data.data)
       } else {
         console.log("No current user")
