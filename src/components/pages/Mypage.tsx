@@ -31,9 +31,7 @@ const Mypage: React.VFC = () => {
   }
 
   // 友達になった人を取得
-  useEffect(() => {
-    fetchFriends()
-  },[fetchFriends])
+  useEffect(() => fetchFriends(),[fetchFriends])
 
   return (
       <>
