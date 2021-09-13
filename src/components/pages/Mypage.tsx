@@ -81,7 +81,7 @@ const Mypage: React.VFC = () => {
                       </>
                     ))
                   :
-                    <h2>友達はまだいません</h2>
+                    <Box  mx={'auto'} maxW={'lg'} textAlign={'center'}>友達はまだいません</Box>
                 }
               </TabPanel>
               <TabPanel>
@@ -106,11 +106,11 @@ const Mypage: React.VFC = () => {
                       )
                     })
                   :
-                    <h2>友達リクエストはありません</h2>
+                    <Box mx={'auto'} maxW={'lg'} textAlign={'center'}>友達リクエストはありません</Box>
                 }
               </TabPanel>
               <TabPanel>
-                <h2>グループ一覧</h2>
+                <Box mx={'auto'} maxW={'lg'} textAlign={'center'}>所属してるグループはまだありません</Box>
               </TabPanel>
             </TabPanels>
           </Tabs>
