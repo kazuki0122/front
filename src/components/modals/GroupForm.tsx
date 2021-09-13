@@ -33,21 +33,26 @@ const GroupForm: React.VFC<Props> = (props) => {
   const history = useHistory();
   const { showMessage } = useMessage()
 
-  // 全てのユーザーデーターを取得
-  const fetchUsers = () => {
-    axios
-      .get('http://localhost:3001/api/v1/users')
-      .then((res) => {
-        const users = res.data.data
-        const newUsers = users.filter((user: User) =>  user.id !== currentUser?.id)
-        setUsers(newUsers)
-      })
-      .catch((err) => { 
-        console.log(err);
-      });
-  };
-
+  // 全てのユーザーデーターを取得fooksにまとめる
   useEffect(() => {
+    const fetchUsers = () => {
+      axios
+        .get('http://localhost:3001/api/v1/users')
+        .then((res) => {
+          const users = res.data.data
+          const newUsers = users.filter((user: User) =>  {
+            console.log('groupのuserのid',user.id);
+            console.log('groupのcurrentUserのid',currentUser?.id);
+            return  user.id !== currentUser?.id
+          })
+          console.log('newUsers', newUsers);
+          
+          setUsers(newUsers)
+        })
+        .catch((err) => { 
+          console.log(err);
+        });
+    };
     fetchUsers()
   },[setUsers])
 

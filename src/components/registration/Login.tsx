@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import {
   Box,
   FormControl,
@@ -14,53 +14,24 @@ import {
   Link,
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import { AuthContext } from 'App';
-import { SignInParams } from 'interfaces';
-import { signIn } from 'api/user/auth';
-import Cookies from 'js-cookie';
 import { useHistory } from "react-router-dom"
-import useMessage from 'hooks/useMessage';
+import useLogin from 'hooks/useLogin';
 
 const Login: React.VFC = () => {
   const [show, setShow] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const history = useHistory()
-  const { setIsSignedIn, setCurrentUser } = useContext(AuthContext)
-
-  const {showMessage} = useMessage()
-  
+  const {loginUser} = useLogin()
   const handleClick = () => setShow(!show)
   const goSignup = () => history.push('/signup')
-  const loginUser = async (e: React.MouseEvent<HTMLButtonElement>) => {
+
+  // ログイン処理
+  const handleLoginUser = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-
-    const params: SignInParams = {
-      email: email,
-      password: password
-    }
-
-    try {
-      const res = await signIn(params)
-      console.log(res)
-
-      if (res.status === 200) {
-        // ログインに成功した場合はCookieに各値を格納
-        Cookies.set("_access_token", res.headers["access-token"])
-        Cookies.set("_client", res.headers["client"])
-        Cookies.set("_uid", res.headers["uid"])
-
-        setIsSignedIn(true)
-        setCurrentUser(res.data.data)
-
-        history.push("/")
-        showMessage({title: 'ログインしました', status: 'success'})
-      } 
-    } catch (err) {
-      console.log(err)
-      showMessage({title: 'ログインに失敗しました', status: 'error'})
-    }
+    loginUser(email, password)
   }
+
   return (
     <Box mx={'auto'} maxW={'lg'} py={12} px={6}>
       <Stack align={'center'}>
@@ -109,7 +80,7 @@ const Login: React.VFC = () => {
                 _hover={{
                   bg: 'orange.400',
                 }}
-                onClick={loginUser}
+                onClick={handleLoginUser}
                 disabled={ !email || !password ? true : false}
                 >
                 ログイン
