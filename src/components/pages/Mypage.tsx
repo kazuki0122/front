@@ -10,13 +10,13 @@ import { useEffect } from 'react'
 
 const Mypage: React.VFC = () => {
   const { currentUser } = useContext(AuthContext)
-  const [users, setUsers] = useState([])
-  const {fetchRequestData, approval} = useFetchFriendRequest()
+  const [friendRequest, setFriendRequest] = useState([])
+  const {fetchRequestData } = useFetchFriendRequest()
   const {fetchFriends, friends} = useFetchFriends()
 
   // 友達リクエストを取得
   useEffect(() => {
-    fetchRequestData(setUsers)
+    fetchRequestData(setFriendRequest)
   },[fetchRequestData])
 
   // 友達リクエストを承諾
@@ -25,7 +25,7 @@ const Mypage: React.VFC = () => {
     friendApprove(id, Number(currentUser?.id))
     .then((res) => {
       console.log(res.data.data);
-      fetchRequestData(setUsers)
+      fetchRequestData(setFriendRequest)
       fetchFriends()
     })
   }
@@ -47,6 +47,11 @@ const Mypage: React.VFC = () => {
             </Stack>
             <Stack mt={3}>
               <Text fontSize={'xl'} textAlign="center">
+                @{currentUser?.userId}
+              </Text>
+            </Stack>
+            <Stack mt={3}>
+              <Text fontSize={'xl'} textAlign="center">
                 <EmailIcon mr={4} color='teal.300'/>
                 {currentUser?.email}
               </Text>
@@ -63,36 +68,46 @@ const Mypage: React.VFC = () => {
             </TabList>
             <TabPanels>
               <TabPanel>
-                {friends.map((friend: User) => (
-                   <>
-                   <Flex key={friend.id} py={7} textAlign='center' alignItems="center" >
-                     <Avatar size={'md'} />
-                     <Box maxW={'xl'} fontSize={'lg'} p={3}>{friend.name}</Box>
-                     <Spacer />
-                   </Flex>
-                   <Divider />
-                 </>
-                ))}
+                {
+                  friends.length ?
+                    friends.map((friend: User) => (
+                      <>
+                        <Flex key={friend.id} py={7} textAlign='center' alignItems="center" >
+                          <Avatar size={'md'} />
+                          <Box maxW={'xl'} fontSize={'lg'} p={3}>{friend.name}</Box>
+                          <Spacer />
+                        </Flex>
+                        <Divider />
+                      </>
+                    ))
+                  :
+                    <h2>友達はまだいません</h2>
+                }
               </TabPanel>
               <TabPanel>
-                {users.map((user: User) => {
-                  return(
-                    <>
-                      <Box mx={'auto'} maxW={'md'} pt={12} pb={4} textAlign="center" boxShadow={'xl'} mt={8}>
-                        <Text fontSize={'lg'} color={'gray.600'} >{user.name}さんから友達リクエストがあります。</Text>
-                        <Button
-                          bg={'orange.300'}
-                          _hover={{
-                            bg: 'orange.400',
-                          }}
-                          mt={3}
-                          onClick={() => handleApproval(user.id)}>
-                            承諾
-                        </Button>
-                      </Box>
-                    </>
-                  )
-                })}
+                {
+                  friendRequest.length ?
+                    friendRequest.map((user: User) => {
+                      return(
+                        <>
+                          <Box mx={'auto'} maxW={'md'} pt={12} pb={4} textAlign="center" boxShadow={'xl'} mt={8}>
+                            <Text fontSize={'lg'} color={'gray.600'} >{user.name}さんから友達リクエストがあります。</Text>
+                            <Button
+                              bg={'orange.300'}
+                              _hover={{
+                                bg: 'orange.400',
+                              }}
+                              mt={3}
+                              onClick={() => handleApproval(user.id)}>
+                                承諾
+                            </Button>
+                          </Box>
+                        </>
+                      )
+                    })
+                  :
+                    <h2>友達リクエストはありません</h2>
+                }
               </TabPanel>
               <TabPanel>
                 <h2>グループ一覧</h2>

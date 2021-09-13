@@ -29,7 +29,7 @@ const Router: React.VFC = () => {
         <Signup />
       </Route>
         <Route exact path="/">
-          <Home />
+          <Mypage />
         </Route>
         <Route path="/group/:id">
           <Group />
@@ -40,8 +40,6 @@ const Router: React.VFC = () => {
         <Route path="/mypage">
           <Mypage />
         </Route>
-
-
     </Switch>
   )
 }

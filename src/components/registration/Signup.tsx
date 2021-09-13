@@ -12,13 +12,14 @@ import {
   Heading,
   InputLeftElement,
 } from '@chakra-ui/react';
-import { EmailIcon, PhoneIcon, ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { AtSignIcon, EmailIcon, PhoneIcon, ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import useSignup from 'hooks/useSignup';
 
 const Signup: React.VFC = () => {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [phoneNumber, setPshoneNumber] = useState("")
+  const [userId, setUserId] = useState("")
   const [password, setPassword] = useState("")
   const [passwordConfirmation, setPasswordConfirmation] = useState("")
   const [show, setShow] = useState(false)
@@ -29,13 +30,13 @@ const Signup: React.VFC = () => {
   // ユーザー登録
   const handleCreateUser = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    createUser(name, email, phoneNumber, password, passwordConfirmation)
+    createUser(name, email, phoneNumber, password, passwordConfirmation, userId)
   }
 
   return (
     <Box mx={'auto'} maxW={'lg'} py={12} px={6}>
       <Stack align={'center'}>
-        <Heading fontSize={'4xl'}>新規ユーザー登録</Heading>
+        <Heading fontSize={'4xl'}>ユーザー登録</Heading>
       </Stack>
       <Box spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Box
@@ -64,6 +65,20 @@ const Signup: React.VFC = () => {
                 value={email}
                 onChange={event => setEmail(event.target.value)}
               />
+              </InputGroup>
+            </FormControl>
+            <FormControl id="user-id">
+              <FormLabel>ユーザーID</FormLabel>
+              <InputGroup>
+                <InputLeftElement
+                  pointerEvents="none"
+                  children={<AtSignIcon color="gray.300" />}
+                />
+                <Input 
+                  placeholder="6文字以上・半角英数字"
+                  value={userId}
+                  onChange={event => setUserId(event.target.value)}
+                />
               </InputGroup>
             </FormControl>
             <FormControl id="phone-number">
@@ -99,7 +114,7 @@ const Signup: React.VFC = () => {
               </InputGroup>
             </FormControl>
             <FormControl id="password">
-              <FormLabel>パスワード確認用</FormLabel>
+              <FormLabel>パスワードの確認</FormLabel>
                 <Input 
                   placeholder="******"
                   value={passwordConfirmation}

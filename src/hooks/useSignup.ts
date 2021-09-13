@@ -12,11 +12,12 @@ const useSignup = () => {
   const history =  useHistory()
   const {showMessage} = useMessage()
   
-  const createUser = async (name: string, email: string, phoneNumber: string, password: string, passwordConfirmation: string) => {
+  const createUser = async (name: string, email: string, phoneNumber: string, password: string, passwordConfirmation: string,userId: string) => {
 
     const params: SignUpParams = {
       name: name,
       email: email,
+      user_id: userId,
       phone_number: phoneNumber,
       password: password,
       passwordConfirmation: passwordConfirmation
