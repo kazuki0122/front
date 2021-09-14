@@ -54,7 +54,7 @@ export const friendApprove = (id: number, currentUserId: number) => {
   })
 }
 
-// マイページで友達を取得
+// 友達を取得
 export const fetchFriendsData = () => {
   return client.get('friends', {
     headers: {
