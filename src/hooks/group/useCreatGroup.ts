@@ -1,13 +1,13 @@
 import { createGroupData } from "api/group/group"
 import { useHistory } from "react-router-dom";
 import useMessage from 'hooks/useMessage';
-import { Group } from "types/group";
+import { GroupParams } from "types/group";
 
 const useCreatGroup = () => {
   const { showMessage } = useMessage()
   const history = useHistory()
 
-  const createGroup = (params: Group) => {
+  const createGroup = (params: GroupParams) => {
     createGroupData(params)
     .then((res) => {
       if (res.data.status === "success") {

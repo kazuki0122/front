@@ -72,7 +72,7 @@ const GroupForm: React.VFC<Props> = (props) => {
               placeholder='グループ名を入力してください' 
               onChange={inputGroupName}
             />
-            <Text>友達を追加</Text>
+            <Text>友達を選択</Text>
             <Select
               isMulti
               name="colors"

@@ -58,24 +58,17 @@ const HamburgerMenu:React.VFC<Props> = (props) => {
             <>
             <Stack spacing={4} cursor="pointer" position="relative">
               <Divider />
-              <Flex justify={'center'}>
-                <Box onClick={onClickSignOut}>
-                  ログアウト
-                </Box>
-                <ChevronRightIcon w={6} h={6} position="absolute" right='0' />
-              </Flex>
-              <Divider />
                 <Flex justify={'center'}>
-                  <Box onClick={ onOpenModal }>
-                    グループ作成
-                    <GroupForm isOpenModal={isOpenModal} onCloseModal={onCloseModal} />
+                  <Box onClick={moveMypage}>
+                    マイページ
                   </Box>
                   <ChevronRightIcon w={6} h={6} position="absolute" right='0' />
                 </Flex>
               <Divider />
                 <Flex justify={'center'}>
-                  <Box onClick={moveMypage}>
-                    マイページ
+                  <Box onClick={ onOpenModal }>
+                    グループ作成
+                    <GroupForm isOpenModal={isOpenModal} onCloseModal={onCloseModal} />
                   </Box>
                   <ChevronRightIcon w={6} h={6} position="absolute" right='0' />
                 </Flex>
@@ -86,6 +79,13 @@ const HamburgerMenu:React.VFC<Props> = (props) => {
                   </Box>
                   <ChevronRightIcon w={6} h={6} position="absolute" right='0' />
                 </Flex>
+              <Divider />
+              <Flex justify={'center'}>
+                <Box onClick={onClickSignOut}>
+                  ログアウト
+                </Box>
+                <ChevronRightIcon w={6} h={6} position="absolute" right='0' />
+              </Flex>
               </Stack>
             </>
             :
