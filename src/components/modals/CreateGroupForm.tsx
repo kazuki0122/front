@@ -23,7 +23,7 @@ type Props = {
   isOpenModal: boolean;
 }
 
-const GroupForm: React.VFC<Props> = (props) => {
+const CreateGroupForm: React.VFC<Props> = (props) => {
   const {onCloseModal, isOpenModal} = props
   const { currentUser } = useContext(AuthContext)
   const [sendUsers, setSendUsers] = useState<number[]>([]);
@@ -94,4 +94,4 @@ const GroupForm: React.VFC<Props> = (props) => {
   )
 }
 
-export default GroupForm
+export default CreateGroupForm

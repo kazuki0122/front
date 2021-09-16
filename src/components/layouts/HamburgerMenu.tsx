@@ -15,7 +15,7 @@ import {
   useDisclosure 
 } from '@chakra-ui/react'
 import { AuthContext } from 'App'
-import GroupForm from '../modals/GroupForm'
+import CreateGroupForm from '../modals/CreateGroupForm'
 import useSignOut from 'hooks/useSignout'
 
 type Props = {
@@ -68,7 +68,7 @@ const HamburgerMenu:React.VFC<Props> = (props) => {
                 <Flex justify={'center'}>
                   <Box onClick={ onOpenModal }>
                     グループ作成
-                    <GroupForm isOpenModal={isOpenModal} onCloseModal={onCloseModal} />
+                    <CreateGroupForm isOpenModal={isOpenModal} onCloseModal={onCloseModal} />
                   </Box>
                   <ChevronRightIcon w={6} h={6} position="absolute" right='0' />
                 </Flex>
