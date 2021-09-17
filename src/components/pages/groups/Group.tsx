@@ -16,8 +16,9 @@ const Group = () => {
   const { currentUser } = useContext(AuthContext)
   const [allUsersMessages, setAllUsersMessages] = useState<Message[]>([])
   const {fetchMessages } = useFetchMessages()
-  const [time, setTime] = useState('')
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [time, setTime] = useState('')
+  const [ billingAmount, setBillingAmount] = useState('')
 
   // グループ情報を取得
   useEffect(() => {
@@ -28,17 +29,13 @@ const Group = () => {
   useEffect(() => {
     fetchMessages(id, setAllUsersMessages)
   },[fetchMessages, id])
-
-
-  console.log('group.tsxの時間',time);
-  
   
   return (
     <Box pos='relative' pb='120px' >
       {
-        time === '' 
-        ? <Text>目覚ましを設定しましょう</Text>
-        : <Text size='xl'>みんなで{time}に起きましょう！</Text>
+        time !== '' && billingAmount !== ''
+        ? <Text size='xl'>課金額は{billingAmount}円です。みんなで{time}に起きましょう！</Text>
+        : <Text>目覚ましを設定しましょう</Text>
       }
       {allUsersMessages.map((message: Message) => (
         message.userId === currentUser?.id
@@ -111,7 +108,7 @@ const Group = () => {
         </Flex>
         </>
        ))} 
-      <GroupMenu time={time} setTime={setTime} isOpen={isOpen} onClose={onClose} />
+      <GroupMenu setBillingAmount={setBillingAmount} time={time} setTime={setTime} isOpen={isOpen} onClose={onClose} />
       <HeaderForm onOpen={onOpen} id={id} allUsersMessages={allUsersMessages} setAllUsersMessages={setAllUsersMessages} />
     </Box>
   )
