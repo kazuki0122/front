@@ -1,0 +1,14 @@
+.says:after {
+  content: "";
+  position: absolute;
+  border: 10px solid transparent;
+}
+.balloon_l .says:after {
+  left: -26px;
+  border-right: 22px solid #99dddd;
+}
+.balloon_r .says:after {
+  right: -26px;
+  border-left: 22px solid #99dddd;
+}
+

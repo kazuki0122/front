@@ -1,5 +1,5 @@
 import { AuthContext } from "App"
-import Group from "components/pages/Group"
+import Group from "components/pages/groups/Group"
 import Users from "components/pages/users"
 import React, { useContext } from "react"
 import { Route, Switch, Redirect } from "react-router-dom"
