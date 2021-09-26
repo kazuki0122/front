@@ -1,10 +1,13 @@
 import { ChatIcon, EmailIcon } from '@chakra-ui/icons'
 import { Avatar, Box, Button, Center, Divider, Flex, Spacer, Stack, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react'
 import { friendApprove } from 'api/friend/fetchUser'
+import { fetchGroupsIndex } from 'api/group/group'
 import { AuthContext } from 'App'
+import useAcceptRequest from 'hooks/mypage/useAcceptRequest'
 import useFetchFriendRequest from 'hooks/mypage/useFetchFriendRequest'
 import useFetchFriends from 'hooks/mypage/useFetchFriends'
 import useFetchGroups from 'hooks/mypage/useFetchGroups'
+import useRefusedToEnter from 'hooks/mypage/useRefusedToEnter'
 import { User } from 'interfaces'
 import React, { useContext, useState } from 'react'
 import { useEffect } from 'react'
@@ -16,8 +19,10 @@ const Mypage: React.VFC = () => {
   const [friendRequest, setFriendRequest] = useState([])
   const {fetchRequestData } = useFetchFriendRequest()
   const {fetchFriends, friends} = useFetchFriends()
-  const {fetchGroups, groups} = useFetchGroups()
+  const {fetchGroups, acceptedUsers, pendingUsers, joinGroups, inviteGroups} = useFetchGroups()
   const history =  useHistory()
+  const {acceptRequest} = useAcceptRequest()
+  const {refusedToEnter} = useRefusedToEnter()
 
   // 友達リクエストを取得
   useEffect(() => {
@@ -41,12 +46,24 @@ const Mypage: React.VFC = () => {
   // 所属してるグループを取得
   useEffect(() => fetchGroups(),[fetchGroups])
 
+  // グループに移動
   const moveGroupPage = (id: number) => history.push(`/group/${id}`)
 
+  // リクエストを許可
+  const handleAcceptRequest = async (id: number) => {
+    await acceptRequest()
+    history.push(`group/${id}`)
+  }
+  
+  // リクエストを拒否
+  const handleRefusedToEnter = async () => {
+    await refusedToEnter()
+    fetchGroups()
+  }
   return (
       <>
         <Flex>
-          <Box py={12} px={6} minWidth={'xl'}>
+          <Box py={12} px={6} minWidth={'md'}>
             <Flex justify="center">
               <Avatar size={'2xl'}></Avatar>
             </Flex>
@@ -73,6 +90,7 @@ const Mypage: React.VFC = () => {
               <Tab>友達リスト</Tab>
               <Tab>友達リクエスト</Tab>
               <Tab>所属グループ</Tab>
+              <Tab>グループリクエスト</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
@@ -119,9 +137,9 @@ const Mypage: React.VFC = () => {
               </TabPanel>
               <TabPanel>
                 {
-                  groups.length ? 
-                    groups.map((group: Group) => (
-                      <>
+                  acceptedUsers.length ? 
+                  joinGroups.map((group: Group) => (
+                    <>
                       <Flex key={group.id} py={7} textAlign='center' alignItems="center" >
                         <ChatIcon color='teal.300'mr={4} />
                         <Text 
@@ -138,6 +156,41 @@ const Mypage: React.VFC = () => {
                     ))
                   :
                     <Box mx={'auto'} maxW={'lg'} textAlign={'center'}>所属してるグループはまだありません</Box>
+                }
+              </TabPanel>
+              <TabPanel>
+                {
+                  pendingUsers.length ?
+                  inviteGroups.map((group: Group) => (
+                    <>
+                      <Flex key={group.id} py={7} textAlign='center' alignItems="center" >
+                        <ChatIcon color='teal.300'mr={4} />
+                        <Text 
+                          fontSize={'lg'} 
+                          p={3}
+                          mr={6}
+                          >
+                          {group.name}
+                        </Text>
+                        <Button
+                          cursor="pointer" 
+                          mr={6}
+                          onClick={() => handleAcceptRequest(group.id)}
+                        >
+                          入室する
+                        </Button>
+                        <Button
+                          cursor="pointer" 
+                          onClick={() => handleRefusedToEnter()}
+                        >
+                          拒否
+                        </Button>
+                      </Flex>
+                      <Divider />
+                    </>
+                  ))
+                  :
+                    <Box mx={'auto'} maxW={'lg'} textAlign={'center'}>リクエストはありません</Box>
                 }
               </TabPanel>
             </TabPanels>

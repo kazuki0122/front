@@ -44,7 +44,7 @@ const CreateGroupForm: React.VFC<Props> = (props) => {
   const handleChange = (value: any): void => {
     console.log(value);
     const uids = value.map((user: User) => user.id)
-    uids.push(currentUser?.id)
+    // uids.push(currentUser?.id)
     console.log(uids);
     setSendUsers(uids);
   }
@@ -52,13 +52,21 @@ const CreateGroupForm: React.VFC<Props> = (props) => {
   const params = {
     group: {
       name: groupName,
-      user_ids: sendUsers
+      user_ids: sendUsers,
     }
   }
 
-  // グループを作成
-  const handleCreatGroup = () => createGroup(params)
+  // const params = {
+  //   group_request: {
+  //     name: groupName,
+  //     to_ids: sendUsers
+  //   }
+  // }
 
+  // グループリクエストを作成
+  const handleCreatGroup = () => {
+    createGroup(params)
+  }
   return (
     <Modal isOpen={isOpenModal} onClose={onCloseModal}>
       <ModalOverlay />
@@ -87,7 +95,7 @@ const CreateGroupForm: React.VFC<Props> = (props) => {
             </Stack>
         </ModalBody>
         <ModalFooter> 
-          <Button colorScheme="orange" onClick={() => {handleCreatGroup(); onCloseModal();}}> 作成 </Button>
+          <Button colorScheme="orange" onClick={() => {handleCreatGroup(); onCloseModal();}}> 申請 </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

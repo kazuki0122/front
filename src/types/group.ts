@@ -12,3 +12,10 @@ export type Group = {
   createdAt: string
   updatedAt: string
 }
+
+export type GroupRequestParams = {
+  group_request: {
+    name: string,
+    to_ids: number[]
+  }
+}
