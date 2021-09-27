@@ -2,11 +2,11 @@ import { AuthContext } from "App"
 import Group from "components/pages/groups/Group"
 import Users from "components/pages/users"
 import React, { useContext } from "react"
-import { Route, Switch, Redirect } from "react-router-dom"
-import Home from "../components/pages/Home"
+import { Route, Switch } from "react-router-dom"
 import Login from "../components/registration/Login"
 import Signup from "../components/registration/Signup"
 import Mypage from "components/pages/Mypage"
+import Card from "components/registration/Card"
 
 const Router: React.VFC = () => {
   const { loading, isSignedIn } = useContext(AuthContext)
@@ -39,6 +39,9 @@ const Router: React.VFC = () => {
         </Route>
         <Route path="/mypage">
           <Mypage />
+        </Route>
+        <Route path="/card">
+          <Card />
         </Route>
     </Switch>
   )
