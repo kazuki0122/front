@@ -1,4 +1,4 @@
-import { sendingFriendRequest } from "api/friend/fetchUser";
+import { sendingFriendRequest } from "api/friend/user";
 import { AuthContext } from "App";
 import { useContext } from "react";
 

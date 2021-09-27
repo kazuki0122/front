@@ -1,12 +1,12 @@
 import { ChatIcon, EmailIcon } from '@chakra-ui/icons'
 import { Avatar, Box, Button, Center, Divider, Flex, Spacer, Stack, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react'
-import { friendApprove } from 'api/friend/fetchUser'
-import { fetchGroupsIndex } from 'api/group/group'
+import { friendApprove } from 'api/friend/user'
 import { AuthContext } from 'App'
 import useAcceptRequest from 'hooks/mypage/useAcceptRequest'
 import useFetchFriendRequest from 'hooks/mypage/useFetchFriendRequest'
 import useFetchFriends from 'hooks/mypage/useFetchFriends'
 import useFetchGroups from 'hooks/mypage/useFetchGroups'
+import useRefusedFriendRequest from 'hooks/mypage/useRefusedFriendRequest'
 import useRefusedToEnter from 'hooks/mypage/useRefusedToEnter'
 import { User } from 'interfaces'
 import React, { useContext, useState } from 'react'
@@ -23,6 +23,7 @@ const Mypage: React.VFC = () => {
   const history =  useHistory()
   const {acceptRequest} = useAcceptRequest()
   const {refusedToEnter} = useRefusedToEnter()
+  const {refusedFriendRequest} = useRefusedFriendRequest()
 
   // 友達リクエストを取得
   useEffect(() => {
@@ -42,9 +43,15 @@ const Mypage: React.VFC = () => {
 
   // 友達になった人を取得
   useEffect(() => fetchFriends(),[fetchFriends])
-
+  
   // 所属してるグループを取得
   useEffect(() => fetchGroups(),[fetchGroups])
+
+  // 友達リクエストをキャンセル
+  const handleRefused = async(id: number) => {
+   await refusedFriendRequest(id)
+   fetchRequestData(setFriendRequest)
+  }
 
   // グループに移動
   const moveGroupPage = (id: number) => history.push(`/group/${id}`)
@@ -54,8 +61,8 @@ const Mypage: React.VFC = () => {
     await acceptRequest()
     history.push(`group/${id}`)
   }
-  
-  // リクエストを拒否
+
+  // グループリクエストを拒否
   const handleRefusedToEnter = async () => {
     await refusedToEnter()
     fetchGroups()
@@ -119,13 +126,19 @@ const Mypage: React.VFC = () => {
                           <Box mx={'auto'} maxW={'md'} pt={12} pb={4} textAlign="center" boxShadow={'xl'} mt={8}>
                             <Text fontSize={'lg'} color={'gray.600'} >{user.name}さんから友達リクエストがあります。</Text>
                             <Button
-                              bg={'orange.300'}
+                              bg={'teal.300'}
                               _hover={{
-                                bg: 'orange.400',
+                                bg: 'teal.400',
                               }}
                               mt={3}
+                              mr={8}
                               onClick={() => handleApproval(user.id)}>
-                                承諾
+                                友達になる
+                            </Button>
+                            <Button
+                              mt={3}
+                              onClick={() => handleRefused(user.id)}>
+                                キャンセル
                             </Button>
                           </Box>
                         </>
@@ -176,6 +189,10 @@ const Mypage: React.VFC = () => {
                           cursor="pointer" 
                           mr={6}
                           onClick={() => handleAcceptRequest(group.id)}
+                          bg={'teal.300'}
+                          _hover={{
+                            bg: 'teal.400',
+                          }}
                         >
                           入室する
                         </Button>
@@ -183,7 +200,7 @@ const Mypage: React.VFC = () => {
                           cursor="pointer" 
                           onClick={() => handleRefusedToEnter()}
                         >
-                          拒否
+                          キャンセル
                         </Button>
                       </Flex>
                       <Divider />

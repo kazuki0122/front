@@ -64,3 +64,15 @@ export const fetchFriendsData = () => {
     }
   })
 }
+
+// 友達リクエストをキャンセル
+export const refusedFriend = (id: number) => {
+  return client.delete('friend_requests/refusedRequest',{
+    params: {from_id: id},
+    headers: {
+      'access-token': Cookies.get("_access_token"),
+      client: Cookies.get("_client"),
+      uid: Cookies.get("_uid")
+    }
+  })
+}

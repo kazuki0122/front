@@ -1,4 +1,4 @@
-import { fetchFriendsData } from "api/friend/fetchUser"
+import { fetchFriendsData } from "api/friend/user"
 import { useCallback, useState } from "react";
 
 const useFetchFriends = () => {
