@@ -67,6 +67,8 @@ const Mypage: React.VFC = () => {
     await refusedToEnter()
     fetchGroups()
   }
+  console.log(inviteGroups);
+  
   return (
       <>
         <Flex>
@@ -124,7 +126,7 @@ const Mypage: React.VFC = () => {
                       return(
                         <>
                           <Box mx={'auto'} maxW={'md'} pt={12} pb={4} textAlign="center" boxShadow={'xl'} mt={8}>
-                            <Text fontSize={'lg'} color={'gray.600'} >{user.name}さんから友達リクエストがあります。</Text>
+                            <Text fontSize={'lg'} color={'gray.600'} >{user.name}さんから友達リクエストがあります</Text>
                             <Button
                               bg={'teal.300'}
                               _hover={{
@@ -176,14 +178,13 @@ const Mypage: React.VFC = () => {
                   pendingUsers.length ?
                   inviteGroups.map((group: Group) => (
                     <>
-                      <Flex key={group.id} py={7} textAlign='center' alignItems="center" >
-                        <ChatIcon color='teal.300'mr={4} />
+                      <Box mx={'auto'} maxW={'md'} pb={4} textAlign="center" boxShadow={'xl'} mt={8}>
                         <Text 
                           fontSize={'lg'} 
                           p={3}
                           mr={6}
                           >
-                          {group.name}
+                          {`${group.createUser}さんから${group.name}というグループに招待されました`}
                         </Text>
                         <Button
                           cursor="pointer" 
@@ -199,10 +200,10 @@ const Mypage: React.VFC = () => {
                         <Button
                           cursor="pointer" 
                           onClick={() => handleRefusedToEnter()}
-                        >
+                          >
                           キャンセル
                         </Button>
-                      </Flex>
+                      </Box>
                       <Divider />
                     </>
                   ))

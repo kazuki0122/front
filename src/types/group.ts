@@ -11,6 +11,7 @@ export type Group = {
   name: string
   createdAt: string
   updatedAt: string
+  createUser?: string
 }
 
 export type GroupRequestParams = {
