@@ -4,11 +4,17 @@ import ReactDOM from "react-dom"
 import  App  from "./App"
 import reportWebVitals from "./reportWebVitals"
 import * as serviceWorker from "./serviceWorker"
+import {Elements} from '@stripe/react-stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
+
+const stripePromise = loadStripe('pk_test_51JahzGLE5X86aEfu9ZW8vFpgQ74o8tWM1aoR4xdcl7pDjOalkglPpejHAVRNzqBHYO1yFmfdfqBoH5LTscgPRt7i00MNgRoMsk');
 
 ReactDOM.render(
   <React.StrictMode>
     <ColorModeScript />
-    <App />
+    <Elements stripe={stripePromise}>
+      <App />
+    </Elements>
   </React.StrictMode>,
   document.getElementById("root"),
 )

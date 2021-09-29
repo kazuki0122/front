@@ -6,7 +6,7 @@ import { Route, Switch } from "react-router-dom"
 import Login from "../components/registration/Login"
 import Signup from "../components/registration/Signup"
 import Mypage from "components/pages/Mypage"
-import Card from "components/registration/Card"
+import CardSetupForm from "components/registration/CardSetupForm"
 
 const Router: React.VFC = () => {
   const { loading, isSignedIn } = useContext(AuthContext)
@@ -41,7 +41,7 @@ const Router: React.VFC = () => {
           <Mypage />
         </Route>
         <Route path="/card">
-          <Card />
+          <CardSetupForm/>
         </Route>
     </Switch>
   )
