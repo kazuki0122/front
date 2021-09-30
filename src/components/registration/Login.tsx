@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useHistory } from "react-router-dom"
-import useLogin from 'hooks/useLogin';
+import useLogin from 'hooks/registration/useLogin';
 
 const Login: React.VFC = () => {
   const [show, setShow] = useState(false)

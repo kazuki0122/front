@@ -1,5 +1,5 @@
 import Cookies from "js-cookie"
-import client from "../user/client"
+import client from "../registration/client"
 
 // const getHeaders = {
 //   headers: {
@@ -67,7 +67,7 @@ export const fetchFriendsData = () => {
 
 // 友達リクエストをキャンセル
 export const refusedFriend = (id: number) => {
-  return client.delete('friend_requests/refusedRequest',{
+  return client.delete('friend_requests/refused_request',{
     params: {from_id: id},
     headers: {
       'access-token': Cookies.get("_access_token"),

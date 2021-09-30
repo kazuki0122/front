@@ -1,45 +1,29 @@
 import React from 'react';
-import {useStripe, useElements, CardElement} from '@stripe/react-stripe-js';
-
+import {useStripe} from '@stripe/react-stripe-js';
 import CardSection from './CardSection';
+import { Button } from '@chakra-ui/button';
+import { Box, Stack } from '@chakra-ui/layout';
+import useRegisterCard from 'hooks/card/useRegisterCard';
+
 
 export default function CardSetupForm() {
   const stripe = useStripe();
-  const elements = useElements();
+  const {registerCard} = useRegisterCard()
 
-  const handleSubmit = async (event) => {
-    // We don't want to let default form submission happen here,
-    // which would refresh the page.
-    event.preventDefault();
-
-    if (!stripe || !elements) {
-      // Stripe.js has not yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
-      return;
-    }
-
-    const result = await stripe.confirmCardSetup('{{CLIENT_SECRET}}', {
-      payment_method: {
-        card: elements.getElement(CardElement),
-        billing_details: {
-          name: 'Jenny Rosen',
-        },
-      }
-    });
-
-    if (result.error) {
-      // Display result.error.message in your UI.
-    } else {
-      // The setup has succeeded. Display a success message and send
-      // result.setupIntent.payment_method to your server to save the
-      // card to a Customer
-    }
-  };
-
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => await registerCard(e)
+  
   return (
-    <form onSubmit={handleSubmit}>
+    <Box mx={'auto'} maxW={'xl'} py={12} px={6} boxShadow={'xl'}>
       <CardSection />
-      <button disabled={!stripe}>Save Card</button>
-    </form>
+      <Stack>
+        <Button 
+          mt={5}
+          onClick={handleSubmit} 
+          disabled={!stripe}
+          >
+          保存する
+        </Button>
+      </Stack>
+    </Box>
   );
 }

@@ -3,7 +3,7 @@ import { ChakraProvider } from "@chakra-ui/react"
 import { BrowserRouter} from "react-router-dom";
 import Router from "router/Router";
 import Header from "components/layouts/Header";
-import { getCurrentUser } from "api/user/auth";
+import { getCurrentUser } from "api/registration/auth";
 import { User } from "interfaces/index"
 
 // グローバルで扱う変数・関数

@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { Avatar, Box, Button, Divider, Flex, Heading, Spacer, Stack } from '@chakra-ui/react';
 import { User } from 'interfaces';
 import Pagination from './Pagination'
-import useFetchUser from 'hooks/useFetchUser';
-import useFriendRequest from 'hooks/useFriendRequest';
-import useFetchSendedRequest from 'hooks/useFetchSendedRequest';
+import useFetchUser from 'hooks/addFriend/useFetchUser';
+import useFriendRequest from 'hooks/addFriend/useFriendRequest';
+import useFetchSendedRequest from 'hooks/addFriend/useFetchSendedRequest';
 
 const Users: React.VFC = () => {
   const [requestFriends, setRequestFriends] = useState< number[]>([])

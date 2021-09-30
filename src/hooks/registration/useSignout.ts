@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { useHistory } from "react-router-dom";
-import { signOut } from "api/user/auth"
+import { signOut } from "api/registration/auth"
 import Cookies from "js-cookie"
 import { AuthContext } from "App";
 

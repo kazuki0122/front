@@ -13,7 +13,10 @@ import {
   InputLeftElement,
 } from '@chakra-ui/react';
 import { AtSignIcon, EmailIcon, PhoneIcon, ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import useSignup from 'hooks/useSignup';
+import useSignup from 'hooks/registration/useSignup';
+import useRegisterCard from 'hooks/card/useRegisterCard';
+import {useStripe} from '@stripe/react-stripe-js';
+import CardSection from './CardSection';
 
 const Signup: React.VFC = () => {
   const [name, setName] = useState("")
@@ -24,13 +27,16 @@ const Signup: React.VFC = () => {
   const [passwordConfirmation, setPasswordConfirmation] = useState("")
   const [show, setShow] = useState(false)
   const {createUser} = useSignup()
+  const {registerCard} = useRegisterCard()
+  const stripe = useStripe();
 
   const handleClick = () => setShow(!show)
 
   // ユーザー登録
-  const handleCreateUser = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleCreateUser = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    createUser(name, email, phoneNumber, password, passwordConfirmation, userId)
+    await createUser(name, email, phoneNumber, password, passwordConfirmation, userId)
+    await registerCard(name, email)
   }
 
   return (
@@ -38,14 +44,14 @@ const Signup: React.VFC = () => {
       <Stack align={'center'}>
         <Heading fontSize={'4xl'}>ユーザー登録</Heading>
       </Stack>
-      <Box spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+      <Box spacing={8} mx={'auto'} maxW={'lg'} py={4} px={6}>
         <Box
           rounded={'lg'}
           bg={useColorModeValue('white', 'gray.700')}
           boxShadow={'xl'}
           p={8}>
           <Stack spacing={6}>
-            <FormControl id="nick-name">
+            <FormControl id="name" isRequired>
               <FormLabel>名前</FormLabel>
               <Input 
                 placeholder="テスト太郎"
@@ -53,7 +59,7 @@ const Signup: React.VFC = () => {
                 onChange={event => setName(event.target.value)}
               />
             </FormControl>
-            <FormControl id="email">
+            <FormControl id="email" isRequired>
               <FormLabel>メールアドレス</FormLabel>
               <InputGroup>
               <InputLeftElement 
@@ -67,7 +73,7 @@ const Signup: React.VFC = () => {
               />
               </InputGroup>
             </FormControl>
-            <FormControl id="user-id">
+            <FormControl id="user-id" isRequired>
               <FormLabel>ユーザーID</FormLabel>
               <InputGroup>
                 <InputLeftElement
@@ -81,7 +87,7 @@ const Signup: React.VFC = () => {
                 />
               </InputGroup>
             </FormControl>
-            <FormControl id="phone-number">
+            <FormControl id="phone-number" isRequired>
               <FormLabel>電話番号</FormLabel>
               <InputGroup>
                 <InputLeftElement
@@ -95,7 +101,7 @@ const Signup: React.VFC = () => {
                 />
               </InputGroup>
             </FormControl>
-            <FormControl id="password">
+            <FormControl id="password" isRequired>
               <FormLabel>パスワード</FormLabel>
               <InputGroup>
                 <Input 
@@ -113,7 +119,7 @@ const Signup: React.VFC = () => {
                 </InputRightElement>
               </InputGroup>
             </FormControl>
-            <FormControl id="password">
+            <FormControl id="password" isRequired>
               <FormLabel>パスワードの確認</FormLabel>
                 <Input 
                   placeholder="******"
@@ -122,6 +128,7 @@ const Signup: React.VFC = () => {
                   type={'password'}
                 />
             </FormControl>
+            <CardSection />
           <Stack>
             <Button
               bg={'orange.300'}
@@ -130,7 +137,7 @@ const Signup: React.VFC = () => {
                 bg: 'orange.400',
               }}
               onClick={handleCreateUser}
-              disabled={!name || !email || !password || !passwordConfirmation ? true : false}
+              disabled={!name || !email || !password || !passwordConfirmation || !stripe ? true : false}
               >
               新規登録
             </Button>

@@ -1,15 +1,15 @@
-import { signUp } from "api/user/auth"
+import { signUp } from "api/registration/auth"
 import { AuthContext } from "App"
 import { SignUpParams } from "interfaces"
 import Cookies from "js-cookie"
 import { useContext } from "react"
 import { useHistory } from "react-router-dom"
-import useMessage from "./useMessage"
+import useMessage from "../info/useMessage"
 
 
 const useSignup = () => {
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext)
-  const history =  useHistory()
+  // const history =  useHistory()
   const {showMessage} = useMessage()
   
   const createUser = async (name: string, email: string, phoneNumber: string, password: string, passwordConfirmation: string,userId: string) => {
@@ -35,8 +35,8 @@ const useSignup = () => {
         setIsSignedIn(true)
         setCurrentUser(res.data.data)
 
-        history.push("/")
-        showMessage({title: 'ユーザー登録が完了しました', status: 'success'})
+        // history.push("/")
+        // showMessage({title: 'ユーザー登録が完了しました', status: 'success'})
       } else {
 
       }

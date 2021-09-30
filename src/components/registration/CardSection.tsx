@@ -1,9 +1,7 @@
-/**
-* Use the CSS tab above to style your Element's container.
-*/
 import React from 'react';
 import {CardElement} from '@stripe/react-stripe-js';
-// import './Styles.css'
+import { Box } from '@chakra-ui/layout';
+import { FormControl, FormLabel } from '@chakra-ui/form-control';
 const CARD_ELEMENT_OPTIONS = {
   style: {
     base: {
@@ -19,14 +17,18 @@ const CARD_ELEMENT_OPTIONS = {
       color: "#fa755a",
       iconColor: "#fa755a",
     },
-  },
+  }, 
+  // 郵便番号非表示
+  hidePostalCode: true
 };
-function CardSection() {
+const CardSection = () => {
   return (
-    <label>
-      Card details
-      <CardElement options={CARD_ELEMENT_OPTIONS} />
-    </label>
+    <FormControl isRequired>
+      <FormLabel>カード情報</FormLabel>
+        <Box borderWidth={1} padding={3} borderRadius={5}>
+          <CardElement options={CARD_ELEMENT_OPTIONS} />
+        </Box>
+    </FormControl>
   );
 };
 export default CardSection;

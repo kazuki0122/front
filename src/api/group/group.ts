@@ -1,4 +1,4 @@
-import client from "api/user/client"
+import client from "api/registration/client"
 import Cookies from "js-cookie"
 import { GroupParams, GroupRequestParams } from "types/group"
 
