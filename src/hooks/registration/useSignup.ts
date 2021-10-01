@@ -3,14 +3,13 @@ import { AuthContext } from "App"
 import { SignUpParams } from "interfaces"
 import Cookies from "js-cookie"
 import { useContext } from "react"
-import { useHistory } from "react-router-dom"
 import useMessage from "../info/useMessage"
 
 
 const useSignup = () => {
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext)
-  // const history =  useHistory()
   const {showMessage} = useMessage()
+  const { setLoading } = useContext(AuthContext)
   
   const createUser = async (name: string, email: string, phoneNumber: string, password: string, passwordConfirmation: string,userId: string) => {
 
@@ -42,6 +41,7 @@ const useSignup = () => {
       }
     } catch (err) {
       console.log(err)
+      setLoading(false)
       showMessage({title: 'ユーザー登録に失敗しました', status: 'error'})
     }
   }

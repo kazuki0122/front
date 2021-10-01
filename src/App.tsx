@@ -5,6 +5,8 @@ import Router from "router/Router";
 import Header from "components/layouts/Header";
 import { getCurrentUser } from "api/registration/auth";
 import { User } from "interfaces/index"
+import LoadingOverlay from 'react-loading-overlay';
+
 
 // グローバルで扱う変数・関数
 export const AuthContext = createContext({} as {
@@ -25,7 +27,6 @@ const App: React.VFC = () => {
   // 認証済みのユーザーがいるかどうかチェック
   const handleGetCurrentUser = async () => {
     try {
-      console.log('App.tsx動いてるよ');
       const res = await getCurrentUser()
       if (res?.data.isLogin === true) {
         setIsSignedIn(true)
@@ -38,22 +39,26 @@ const App: React.VFC = () => {
     } catch (err) {
       console.log(err)
     }
-
     setLoading(false)
   }
 
   useEffect(() => {
     handleGetCurrentUser()
   }, [setCurrentUser])
-
-
+  
   return(
     <div className="App">
       <ChakraProvider>
         <AuthContext.Provider value={{ loading, setLoading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser, handleGetCurrentUser}}>
           <BrowserRouter>
             <Header />
-             <Router />
+            <LoadingOverlay
+              active={loading}
+              spinner
+              text='Loading ...'
+            >
+            <Router />
+            </LoadingOverlay>
           </BrowserRouter>
         </AuthContext.Provider>
       </ChakraProvider>
