@@ -7,6 +7,7 @@ import Login from "../components/registration/Login"
 import Signup from "../components/registration/Signup"
 import Mypage from "components/pages/Mypage"
 import Loading from "components/layouts/Loading"
+import GroupDetail from "components/pages/groups/GroupDetail"
 
 const Router: React.VFC = () => {
   const { loading, isSignedIn } = useContext(AuthContext)
@@ -31,9 +32,19 @@ const Router: React.VFC = () => {
         <Route exact path="/">
           <Mypage />
         </Route>
-        <Route path="/group/:id">
-          <Group />
-        </Route>
+        <Route 
+          path="/group/:id" 
+          render={() => (
+            <Switch>
+              <Route exact path='/group/:id'>
+                <Group />
+              </Route>
+              <Route exact path='/group/:id/detail'>
+                <GroupDetail />
+              </Route>
+            </Switch>
+          )}
+        />
         <Route path="/users">
           <Users />
         </Route>

@@ -95,7 +95,7 @@ const CreateGroupForm: React.VFC<Props> = (props) => {
             </Stack>
         </ModalBody>
         <ModalFooter> 
-          <Button colorScheme="orange" onClick={() => {handleCreatGroup(); onCloseModal();}}> 申請 </Button>
+          <Button colorScheme="orange" onClick={() => {handleCreatGroup(); onCloseModal();}}> 作成 </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

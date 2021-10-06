@@ -3,8 +3,11 @@ import Cookies from "js-cookie"
 import { RuleParams } from "types/rule"
 
 // ルールの取得
-export const fetchRulesData = () => {
+export const fetchRulesData = (id: number) => {
   return client.get('rules', {
+    params: {
+      id: id
+    },
     headers: {
       'access-token': Cookies.get("_access_token"),
       client: Cookies.get("_client"),

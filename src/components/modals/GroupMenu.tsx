@@ -52,7 +52,7 @@ const GroupMenu: React.VFC<Props> = (props) => {
               fontSize="1.2em"
               children="¥"
             />
-            <Input onChange={event => setAmount(event.target.value)} placeholder="課金額は100円~2000円まで" />
+            <Input onChange={event => setAmount(event.target.value)} placeholder="罰金は100円~1000円まで" />
           </InputGroup>
         </Box>
         {console.log(time)}

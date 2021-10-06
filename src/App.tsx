@@ -5,7 +5,6 @@ import Router from "router/Router";
 import Header from "components/layouts/Header";
 import { getCurrentUser } from "api/registration/auth";
 import { User } from "interfaces/index"
-import LoadingOverlay from 'react-loading-overlay';
 
 
 // グローバルで扱う変数・関数
@@ -51,14 +50,8 @@ const App: React.VFC = () => {
       <ChakraProvider>
         <AuthContext.Provider value={{ loading, setLoading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser, handleGetCurrentUser}}>
           <BrowserRouter>
-            <Header />
-            <LoadingOverlay
-              active={loading}
-              spinner
-              text='Loading ...'
-            >
+          <Header />
             <Router />
-            </LoadingOverlay>
           </BrowserRouter>
         </AuthContext.Provider>
       </ChakraProvider>

@@ -1,6 +1,6 @@
 import {useContext} from 'react'
 import {useStripe, useElements, CardElement} from '@stripe/react-stripe-js';
-import { createCustomer } from 'api/card/card';
+import { createCards, createCustomer } from 'api/card/card';
 import { AuthContext } from 'App';
 import useMessage from 'hooks/info/useMessage';
 import { useHistory } from 'react-router';
@@ -40,9 +40,12 @@ const useRegisterCard = () => {
         // The setup has succeeded. Display a success message and send
         // result.setupIntent.payment_method to your server to save the
         // card to a Customer
-        // 成功したらDBにカード情報を保存する？多分
+        const params = { 
+          paymentMethod: result.setupIntent.payment_method
+        }
+        createCards(params)
         setLoading(false)
-        console.log(result);
+        console.log('カード情報',result);
         history.push("/")
         showMessage({title: 'ユーザー登録が完了しました', status: 'success'})
       }

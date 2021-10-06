@@ -7,10 +7,8 @@ import classes from 'style.module.css'
 import { AuthContext } from 'App';
 import useFetchMessages from 'hooks/message/useFetchMessages';
 import { Message } from 'types/message';
-import HeaderForm from './HeaderForm';
+import FooterForm from './FooterForm';
 import GroupMenu from 'components/modals/GroupMenu';
-import useFetchRules from 'hooks/group/useFetchRules';
-import { BellIcon } from '@chakra-ui/icons';
 
 const Group = () => {
   const { id } = useParams()
@@ -21,47 +19,16 @@ const Group = () => {
   const [ billingAmount, setBillingAmount] = useState('')
   const {fetchMessages } = useFetchMessages()
   const {fetchGroup} = useFetchGroup()
-  const {fetchRules} = useFetchRules()
 
   // グループ情報を取得
   useEffect(() => fetchGroup(id) ,[fetchGroup, id])
 
   // メッセージ取得
-  useEffect(() => {fetchMessages(id, setAllUsersMessages)},[id, fetchMessages])
+  useEffect(() => {fetchMessages(id, setAllUsersMessages)},[id, fetchMessages, setAllUsersMessages])
 
-  // ルールを取得
-  useEffect(() => fetchRules(setTime,setBillingAmount) ,[fetchRules])
   
   return (
     <Box pos='relative' pb='120px' >
-      {
-        time !== '' && billingAmount !== ''
-        ? <Text 
-            fontSize="xl" 
-            textAlign='center' 
-            size='xl' 
-            mx={'auto'} 
-            maxW={'xl'} 
-            py={12} 
-            px={6}
-            boxShadow={'xl'}
-          >
-            <BellIcon  w={8} h={8} color='#ECC94B' /><br/>
-            設定された課金額は{billingAmount}円です。<br/>みんなで{time}に起きましょう！
-          </Text>
-        : <Text 
-            textAlign='center' 
-            size='xl' 
-            mx={'auto'} 
-            maxW={'xl'} 
-            py={12} 
-            px={6}
-            boxShadow={'xl'}
-          >
-            <BellIcon  w={8} h={8} color='#ECC94B' /><br/>
-            目覚ましを設定しましょう!
-          </Text>
-      }
       {allUsersMessages.map((message: Message) => (
         message.userId === currentUser?.id
         ?
@@ -134,7 +101,7 @@ const Group = () => {
         </>
        ))} 
       <GroupMenu id={id} billingAmount={billingAmount} setBillingAmount={setBillingAmount} time={time} setTime={setTime} isOpen={isOpen} onClose={onClose} />
-      <HeaderForm onOpen={onOpen} id={id} allUsersMessages={allUsersMessages} setAllUsersMessages={setAllUsersMessages} />
+      <FooterForm onOpen={onOpen} id={id} allUsersMessages={allUsersMessages} setAllUsersMessages={setAllUsersMessages} />
     </Box>
   )
 }
