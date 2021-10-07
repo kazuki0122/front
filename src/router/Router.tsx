@@ -2,57 +2,58 @@ import { AuthContext } from "App"
 import Group from "components/pages/groups/Group"
 import Users from "components/pages/users"
 import React, { useContext } from "react"
-import { Route, Switch } from "react-router-dom"
+import { Route, Switch, Redirect } from "react-router-dom"
 import Login from "../components/registration/Login"
 import Signup from "../components/registration/Signup"
 import Mypage from "components/pages/Mypage"
 import Loading from "components/layouts/Loading"
-import GroupDetail from "components/pages/groups/GroupDetail"
+import Detail from "components/pages/groups/Detail"
+import Page404 from "components/pages/Page404"
 
 const Router: React.VFC = () => {
-  const { loading, isSignedIn } = useContext(AuthContext)
-  // ユーザーが認証済みかどうかでルーティングを決定
-  // 未認証だった場合は「/login」ページに促す
-  // const Private = ({ children }: { children: React.ReactElement }) => {
-  //     if (isSignedIn) {
-  //       return children
-  //     } else {
-  //       return <Redirect to="/login" />
-  //     }
-  //   }
+  const { isSignedIn } = useContext(AuthContext)
 
   return (
     <Switch>
       <Route path='/login'>
-        <Login />
+        {isSignedIn ? <Redirect to="/mypage" /> : <Login />}
       </Route>
       <Route path='/signup'>
-        <Signup />
+        { isSignedIn? <Redirect to="/mypage" /> : <Signup /> }
       </Route>
         <Route exact path="/">
-          <Mypage />
+          {isSignedIn ?  <Mypage /> : <Redirect to='login' />}
         </Route>
         <Route 
           path="/group/:id" 
           render={() => (
             <Switch>
-              <Route exact path='/group/:id'>
-                <Group />
-              </Route>
-              <Route exact path='/group/:id/detail'>
-                <GroupDetail />
-              </Route>
+              {isSignedIn ? 
+                <>
+                  <Route exact path='/group/:id'>
+                    <Group />
+                  </Route>
+                  <Route exact path='/group/:id/detail'>
+                    <Detail />
+                  </Route>
+                </>
+                : 
+                <Redirect to='/login' />
+              }
             </Switch>
           )}
         />
         <Route path="/users">
-          <Users />
+         {isSignedIn ?  <Users /> : <Redirect to='login' />}
         </Route>
         <Route path="/mypage">
-          <Mypage />
+          {isSignedIn ?  <Mypage /> : <Redirect to='login' />}
         </Route>
         <Route path="/load">
           <Loading/>
+        </Route>
+        <Route path="*">
+          <Page404 />
         </Route>
     </Switch>
   )

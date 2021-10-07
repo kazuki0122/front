@@ -1,6 +1,6 @@
 import client from "api/registration/client"
 import Cookies from "js-cookie"
-import { GroupParams, GroupRequestParams } from "types/group"
+import { GroupParams } from "types/group"
 
 // current_userが所属してるグループ一覧
 export const fetchGroupsIndex = () => {

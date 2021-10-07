@@ -1,4 +1,3 @@
-import { AddIcon } from '@chakra-ui/icons'
 import { Button, Flex, FormControl, Input } from '@chakra-ui/react'
 import useCreateMessage from 'hooks/message/useCreateMessage'
 import React, { useState } from 'react'
