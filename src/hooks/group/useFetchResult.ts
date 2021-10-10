@@ -6,14 +6,16 @@ const useFetchResult = () => {
   const [userData, setUserData] = useState([])
   const [dataExist, setDataExist] = useState()
 
-  const fetchResult = useCallback((id: number) => {
-    fetchResultData(id)
+  const fetchResult = useCallback( async (id: number) => {
+    await fetchResultData(id)
     .then((res) => {
       console.log('boolean',res.data.boolean);
       console.log('ユーザー情報',res.data.userData);
       setBoolean(res.data.boolean)
       setUserData(res.data.userData)
       setDataExist(res.data.dataExist)
+      console.log('データある？',res.data.dataExist);
+      
     })
   },[])
   return {fetchResult, boolean, userData, dataExist}
