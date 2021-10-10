@@ -62,7 +62,7 @@ const GroupMenu: React.VFC<Props> = (props) => {
         <Button colorScheme="blue" mr={3} onClick={() => {onClose(); handleSubmit();}}>
           閉じる
         </Button>
-        <Button variant="ghost" onClick={() => {onClose(); handleSubmit();}}>完了</Button>
+        <Button disabled={!wakeUpTime || !amount ? true : false} variant="ghost" onClick={() => {onClose(); handleSubmit();}}>完了</Button>
       </ModalFooter>
     </ModalContent>
   </Modal>

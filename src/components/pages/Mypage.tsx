@@ -58,13 +58,13 @@ const Mypage: React.VFC = () => {
 
   // リクエストを許可
   const handleAcceptRequest = async (id: number) => {
-    await acceptRequest()
+    await acceptRequest(id)
     history.push(`group/${id}`)
   }
 
   // グループリクエストを拒否
-  const handleRefusedToEnter = async () => {
-    await refusedToEnter()
+  const handleRefusedToEnter = async (id: number) => {
+    await refusedToEnter(id)
     fetchGroups()
   }
   console.log(inviteGroups);
@@ -97,8 +97,8 @@ const Mypage: React.VFC = () => {
           <Tabs isFitted variant="enclosed" minWidth={'4xl'}>
             <TabList mb="1em">
               <Tab>友達リスト</Tab>
-              <Tab>友達リクエスト</Tab>
               <Tab>所属グループ</Tab>
+              <Tab>友達リクエスト</Tab>
               <Tab>グループリクエスト</Tab>
             </TabList>
             <TabPanels>
@@ -117,6 +117,29 @@ const Mypage: React.VFC = () => {
                     ))
                   :
                     <Box  mx={'auto'} maxW={'lg'} textAlign={'center'}>友達はまだいません</Box>
+                }
+              </TabPanel>
+              <TabPanel>
+                {
+                  acceptedUsers.length ? 
+                  joinGroups.map((group: Group) => (
+                    <>
+                      <Flex key={group.id} py={7} textAlign='center' alignItems="center" >
+                        <ChatIcon color='teal.300'mr={4} />
+                        <Text 
+                          cursor="pointer" 
+                          fontSize={'lg'} 
+                          p={3}
+                          onClick={() => moveGroupPage(group.id)}
+                        >
+                          {group.name}
+                        </Text>
+                      </Flex>
+                      <Divider />
+                    </>
+                    ))
+                  :
+                    <Box mx={'auto'} maxW={'lg'} textAlign={'center'}>所属してるグループはまだありません</Box>
                 }
               </TabPanel>
               <TabPanel>
@@ -152,29 +175,6 @@ const Mypage: React.VFC = () => {
               </TabPanel>
               <TabPanel>
                 {
-                  acceptedUsers.length ? 
-                  joinGroups.map((group: Group) => (
-                    <>
-                      <Flex key={group.id} py={7} textAlign='center' alignItems="center" >
-                        <ChatIcon color='teal.300'mr={4} />
-                        <Text 
-                          cursor="pointer" 
-                          fontSize={'lg'} 
-                          p={3}
-                          onClick={() => moveGroupPage(group.id)}
-                        >
-                          {group.name}
-                        </Text>
-                      </Flex>
-                      <Divider />
-                    </>
-                    ))
-                  :
-                    <Box mx={'auto'} maxW={'lg'} textAlign={'center'}>所属してるグループはまだありません</Box>
-                }
-              </TabPanel>
-              <TabPanel>
-                {
                   pendingUsers.length ?
                   inviteGroups.map((group: Group) => (
                     <>
@@ -199,7 +199,7 @@ const Mypage: React.VFC = () => {
                         </Button>
                         <Button
                           cursor="pointer" 
-                          onClick={() => handleRefusedToEnter()}
+                          onClick={() => handleRefusedToEnter(group.id)}
                           >
                           キャンセル
                         </Button>

@@ -34,8 +34,11 @@ export const fetchGroupData = (id: number) => {
 }
 
 // リクエスト承諾
-export const accept = () => {
+export const accept = (id: number) => {
   return client.get('groups/enter_group',{
+    params: {
+      id: id
+    },
     headers: {
       'access-token': Cookies.get("_access_token"),
       client: Cookies.get("_client"),
@@ -45,8 +48,11 @@ export const accept = () => {
 }
 
 // リクエスト拒否
-export const refused = () => {
+export const refused = (id: number) => {
   return client.delete('groups/refused_to_enter',{
+    params: {
+      id: id
+    },
     headers: {
       'access-token': Cookies.get("_access_token"),
       client: Cookies.get("_client"),

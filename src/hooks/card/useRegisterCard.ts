@@ -20,7 +20,9 @@ const useRegisterCard = () => {
       console.log('顧客情報',res.data.data);
       // Stripe.js has not yet loaded.
       // Make sure to disable form submission until Stripe.js has loaded.
-      if (!stripe || !elements) return;
+      if (!stripe || !elements) {
+        return;
+      }
       console.log('clientSecret',res.data.data.clientSecret);
 
       console.log('elements',elements.getElement(CardElement));
@@ -44,8 +46,8 @@ const useRegisterCard = () => {
           paymentMethod: result.setupIntent.payment_method
         }
         createCards(params)
-        setLoading(false)
         console.log('カード情報',result);
+        setLoading(false)
         history.push("/")
         showMessage({title: 'ユーザー登録が完了しました', status: 'success'})
       }

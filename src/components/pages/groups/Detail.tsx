@@ -13,7 +13,7 @@ const Detail = () => {
   const [time, setTime] = useState('')
   const [billingAmount, setBillingAmount] = useState('')
   const {fetchRules} = useFetchRules()
-  const {fetchResult, boolean, userData} = useFetchResult()
+  const {fetchResult, boolean, userData, dataExist} = useFetchResult()
   const history =  useHistory()
 
 
@@ -25,30 +25,9 @@ const Detail = () => {
 
   return (
     <>
-      <Box
-        fontSize="xl" 
-        textAlign='center' 
-        size='xl' 
-        mx={'auto'} 
-        maxW={'xl'} 
-        py={12} 
-        px={6}
-        boxShadow={'xl'}
-      >
-        {
-          time !== '' && billingAmount !== '' ? 
-            <Text>
-              <BellIcon  w={8} h={8} color='#ECC94B' /><br/>
-              設定された課金額は{billingAmount}円です。<br/>{time}に起きましょう！
-            </Text>
-          : <Text>
-              <BellIcon  w={8} h={8} color='#ECC94B' /><br/>
-              起きる時間と罰金額を設定しましょう!
-            </Text>
-        }
-      </Box>
       <Flex
         mx={'auto'} 
+        mt={3}
         maxW={'xl'} 
         justify='center'
       >
@@ -68,11 +47,35 @@ const Detail = () => {
         size='xl' 
         mx={'auto'} 
         maxW={'xl'} 
+        mt={3}
         py={12} 
         px={6}
         boxShadow={'xl'}
       >
         {
+          time !== '' && billingAmount !== '' ? 
+            <Text>
+              <BellIcon  w={8} h={8} color='#ECC94B' /><br/>
+              設定された課金額は{billingAmount}円です。<br/>{time}に起きましょう！
+            </Text>
+          : <Text>
+              <BellIcon  w={8} h={8} color='#ECC94B' /><br/>
+              起きる時間と罰金額を設定しましょう!
+            </Text>
+        }
+      </Box>
+      <Box
+        fontSize="xl" 
+        textAlign='center' 
+        size='xl' 
+        mx={'auto'} 
+        maxW={'xl'} 
+        py={12} 
+        px={6}
+        boxShadow={'xl'}
+      >
+        {
+        dataExist === true ?
           boolean === true ?
           <Box 
             mx={'auto'} 
@@ -91,6 +94,8 @@ const Detail = () => {
               {`前回は${user.name}さんが起きれなかったので課金されました`}
             </Box>
           ))
+          : 
+          <Box>データが存在しません。</Box>
         }
       </Box>
     </>

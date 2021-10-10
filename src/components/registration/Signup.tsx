@@ -15,7 +15,7 @@ import {
 import { AtSignIcon, EmailIcon, PhoneIcon, ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import useSignup from 'hooks/registration/useSignup';
 import useRegisterCard from 'hooks/card/useRegisterCard';
-import {useStripe} from '@stripe/react-stripe-js';
+import {useStripe, useElements} from '@stripe/react-stripe-js';
 import CardSection from './CardSection';
 import { AuthContext } from 'App';
 import LoadingOverlay from 'react-loading-overlay';
@@ -33,6 +33,7 @@ const Signup: React.VFC = () => {
   const {registerCard} = useRegisterCard()
   const stripe = useStripe();
   const { loading, setLoading } = useContext(AuthContext)
+  const elements = useElements();
 
   const handleClick = () => setShow(!show)
 
@@ -43,7 +44,9 @@ const Signup: React.VFC = () => {
     await createUser(name, email, phoneNumber, password, passwordConfirmation, userId)
     await registerCard(name, email)
   }
-
+  console.log('stripe',stripe);
+  console.log('elements',elements);
+  
   return (
     <>
     <LoadingOverlay
@@ -148,7 +151,7 @@ const Signup: React.VFC = () => {
                     bg: 'orange.400',
                   }}
                   onClick={handleCreateUser}
-                  disabled={!name || !email || !password || !passwordConfirmation || !stripe ? true : false}
+                  disabled={!name || !email || !password || !passwordConfirmation || !elements || !stripe ? true : false}
                   >
                   新規登録
                 </Button>

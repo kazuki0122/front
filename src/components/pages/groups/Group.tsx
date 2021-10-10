@@ -21,7 +21,7 @@ const Group = () => {
   const {fetchGroup} = useFetchGroup()
 
   // グループ情報を取得
-  useEffect(() => fetchGroup(id) ,[fetchGroup, id])
+  useEffect(() => fetchGroup(id),[fetchGroup, id])
 
   // メッセージ取得
   useEffect(() => {fetchMessages(id, setAllUsersMessages)},[id, fetchMessages, setAllUsersMessages])

@@ -44,13 +44,16 @@ const App: React.VFC = () => {
   useEffect(() => {
     handleGetCurrentUser()
   }, [setCurrentUser])
+
+  console.log('ログインしてる？',isSignedIn);
   
+
   return(
     <div className="App">
       <ChakraProvider>
         <AuthContext.Provider value={{ loading, setLoading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser, handleGetCurrentUser}}>
           <BrowserRouter>
-          <Header />
+            <Header />
             <Router />
           </BrowserRouter>
         </AuthContext.Provider>

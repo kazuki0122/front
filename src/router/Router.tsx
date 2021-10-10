@@ -11,24 +11,25 @@ import Detail from "components/pages/groups/Detail"
 import Page404 from "components/pages/Page404"
 
 const Router: React.VFC = () => {
-  const { isSignedIn } = useContext(AuthContext)
+  const { isSignedIn, loading } = useContext(AuthContext)
 
   return (
     <Switch>
       <Route path='/login'>
-        {isSignedIn ? <Redirect to="/mypage" /> : <Login />}
+        {isSignedIn || loading ? <Redirect to="/mypage" /> : <Login />}
       </Route>
       <Route path='/signup'>
-        { isSignedIn? <Redirect to="/mypage" /> : <Signup /> }
+        { isSignedIn && !loading ? <Redirect to="/mypage" /> : <Signup /> }
       </Route>
         <Route exact path="/">
-          {isSignedIn ?  <Mypage /> : <Redirect to='login' />}
+          {isSignedIn || loading ?  <Mypage /> : <Redirect to='login' />}
         </Route>
         <Route 
           path="/group/:id" 
           render={() => (
+            // 自分がそのグループに所属していようがしていなかろうが、この条件の書き方だとurlで遷移できなくなってる。。
             <Switch>
-              {isSignedIn ? 
+              {isSignedIn || loading ? 
                 <>
                   <Route exact path='/group/:id'>
                     <Group />
@@ -44,10 +45,10 @@ const Router: React.VFC = () => {
           )}
         />
         <Route path="/users">
-         {isSignedIn ?  <Users /> : <Redirect to='login' />}
+         {isSignedIn || loading ?  <Users /> : <Redirect to='login' />}
         </Route>
         <Route path="/mypage">
-          {isSignedIn ?  <Mypage /> : <Redirect to='login' />}
+          {isSignedIn || loading ?  <Mypage /> : <Redirect to='login' />}
         </Route>
         <Route path="/load">
           <Loading/>
