@@ -1,4 +1,4 @@
-import { fetchSendedFriendRequest } from "api/friend/fetchUser";
+import { fetchSendedFriendRequest } from "api/friend/user";
 import { useCallback } from "react";
 
 const useFetchFriendRequest = () => {

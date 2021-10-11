@@ -1,7 +1,7 @@
-import { AddIcon } from '@chakra-ui/icons'
 import { Button, Flex, FormControl, Input } from '@chakra-ui/react'
 import useCreateMessage from 'hooks/message/useCreateMessage'
 import React, { useState } from 'react'
+import { useHistory } from 'react-router'
 import { Message } from 'types/message'
 
 type Props = {
@@ -11,10 +11,11 @@ type Props = {
   onOpen: () => void;
 }
 
-const HeaderForm: React.VFC<Props> = (props) => {
+const FooterForm: React.VFC<Props> = (props) => {
   const {id, allUsersMessages, setAllUsersMessages, onOpen} = props
   const [message, setMessage] = useState('')
   const {createMessage } = useCreateMessage()
+  const history = useHistory();
 
   const params = {
     message: {
@@ -24,9 +25,13 @@ const HeaderForm: React.VFC<Props> = (props) => {
   }
 
   // メッセージ作成
-  const handleCreateMessage = () => {
-    createMessage(id, params, allUsersMessages, setAllUsersMessages)
+  const handleCreateMessage = async() => {
+    await createMessage(id, params, allUsersMessages, setAllUsersMessages)
     setMessage('')
+  }
+  
+  const moveDetail = () =>  {
+    history.push(`/group/${id}/detail` )
   }
 
   return (
@@ -42,12 +47,31 @@ const HeaderForm: React.VFC<Props> = (props) => {
         height='120px'
         px={'5'}
       >
-        <Button mr='8' backgroundColor='white' onClick={onOpen}> 
-          <AddIcon  />
+        <Button 
+          mr='8' 
+          backgroundColor='#63B3ED'
+          color={'white'}
+          _hover={{
+              bg: '#4299E1',
+          }}
+          onClick={onOpen}
+        > 
+          時間設定
+        </Button>
+        <Button 
+          mr='8' 
+          backgroundColor='#63B3ED'
+          color={'white'}
+          _hover={{
+              bg: '#4299E1',
+          }}
+          onClick={moveDetail}
+        > 
+          設定時間の確認
         </Button>
         <Flex
           alignItems="center" 
-          minW={'95%'}
+          minW={'80%'}
         >
           <FormControl id='message'>
             <Input 
@@ -77,4 +101,4 @@ const HeaderForm: React.VFC<Props> = (props) => {
   )
 }
 
-export default HeaderForm
+export default FooterForm

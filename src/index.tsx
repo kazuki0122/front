@@ -4,11 +4,18 @@ import ReactDOM from "react-dom"
 import  App  from "./App"
 import reportWebVitals from "./reportWebVitals"
 import * as serviceWorker from "./serviceWorker"
+import {Elements} from '@stripe/react-stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
+
+const stripePromise = loadStripe(`${process.env.REACT_APP_DEV_PUBLIC_KEY}`);
 
 ReactDOM.render(
   <React.StrictMode>
     <ColorModeScript />
-    <App />
+    <Elements stripe={stripePromise}>
+      {console.log('公開鍵',process.env.REACT_APP_DEV_PUBLIC_KEY)}
+      <App />
+    </Elements>
   </React.StrictMode>,
   document.getElementById("root"),
 )

@@ -1,10 +1,10 @@
-import { signIn } from "api/user/auth"
+import { signIn } from "api/registration/auth"
 import { AuthContext } from "App"
 import { SignInParams } from "interfaces"
 import Cookies from "js-cookie"
 import { useContext } from "react"
 import { useHistory } from "react-router-dom"
-import useMessage from "./useMessage"
+import useMessage from "../info/useMessage"
 
 const useLogin = () => {
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext)

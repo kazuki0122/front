@@ -7,36 +7,28 @@ import classes from 'style.module.css'
 import { AuthContext } from 'App';
 import useFetchMessages from 'hooks/message/useFetchMessages';
 import { Message } from 'types/message';
-import HeaderForm from './HeaderForm';
+import FooterForm from './FooterForm';
 import GroupMenu from 'components/modals/GroupMenu';
 
 const Group = () => {
   const { id } = useParams()
-  const {fetchGroup} = useFetchGroup()
   const { currentUser } = useContext(AuthContext)
   const [allUsersMessages, setAllUsersMessages] = useState<Message[]>([])
-  const {fetchMessages } = useFetchMessages()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [time, setTime] = useState('')
   const [ billingAmount, setBillingAmount] = useState('')
+  const {fetchMessages } = useFetchMessages()
+  const {fetchGroup} = useFetchGroup()
 
   // グループ情報を取得
-  useEffect(() => {
-    fetchGroup(id)
-  },[fetchGroup, id])
+  useEffect(() => fetchGroup(id),[fetchGroup, id])
 
   // メッセージ取得
-  useEffect(() => {
-    fetchMessages(id, setAllUsersMessages)
-  },[fetchMessages, id])
+  useEffect(() => {fetchMessages(id, setAllUsersMessages)},[id, fetchMessages, setAllUsersMessages])
+
   
   return (
     <Box pos='relative' pb='120px' >
-      {
-        time !== '' && billingAmount !== ''
-        ? <Text size='xl'>課金額は{billingAmount}円です。みんなで{time}に起きましょう！</Text>
-        : <Text>目覚ましを設定しましょう</Text>
-      }
       {allUsersMessages.map((message: Message) => (
         message.userId === currentUser?.id
         ?
@@ -108,8 +100,8 @@ const Group = () => {
         </Flex>
         </>
        ))} 
-      <GroupMenu setBillingAmount={setBillingAmount} time={time} setTime={setTime} isOpen={isOpen} onClose={onClose} />
-      <HeaderForm onOpen={onOpen} id={id} allUsersMessages={allUsersMessages} setAllUsersMessages={setAllUsersMessages} />
+      <GroupMenu id={id} billingAmount={billingAmount} setBillingAmount={setBillingAmount} time={time} setTime={setTime} isOpen={isOpen} onClose={onClose} />
+      <FooterForm onOpen={onOpen} id={id} allUsersMessages={allUsersMessages} setAllUsersMessages={setAllUsersMessages} />
     </Box>
   )
 }

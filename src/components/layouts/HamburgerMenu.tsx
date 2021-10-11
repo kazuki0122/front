@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react'
 import { AuthContext } from 'App'
 import CreateGroupForm from '../modals/CreateGroupForm'
-import useSignOut from 'hooks/useSignout'
+import useSignOut from 'hooks/registration/useSignout'
 
 type Props = {
   onClose: () => void;

@@ -1,10 +1,13 @@
 import { ChatIcon, EmailIcon } from '@chakra-ui/icons'
 import { Avatar, Box, Button, Center, Divider, Flex, Spacer, Stack, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react'
-import { friendApprove } from 'api/friend/fetchUser'
+import { friendApprove } from 'api/friend/user'
 import { AuthContext } from 'App'
+import useAcceptRequest from 'hooks/mypage/useAcceptRequest'
 import useFetchFriendRequest from 'hooks/mypage/useFetchFriendRequest'
 import useFetchFriends from 'hooks/mypage/useFetchFriends'
 import useFetchGroups from 'hooks/mypage/useFetchGroups'
+import useRefusedFriendRequest from 'hooks/mypage/useRefusedFriendRequest'
+import useRefusedToEnter from 'hooks/mypage/useRefusedToEnter'
 import { User } from 'interfaces'
 import React, { useContext, useState } from 'react'
 import { useEffect } from 'react'
@@ -16,8 +19,11 @@ const Mypage: React.VFC = () => {
   const [friendRequest, setFriendRequest] = useState([])
   const {fetchRequestData } = useFetchFriendRequest()
   const {fetchFriends, friends} = useFetchFriends()
-  const {fetchGroups, groups} = useFetchGroups()
+  const {fetchGroups, acceptedUsers, pendingUsers, joinGroups, inviteGroups} = useFetchGroups()
   const history =  useHistory()
+  const {acceptRequest} = useAcceptRequest()
+  const {refusedToEnter} = useRefusedToEnter()
+  const {refusedFriendRequest} = useRefusedFriendRequest()
 
   // 友達リクエストを取得
   useEffect(() => {
@@ -37,16 +43,36 @@ const Mypage: React.VFC = () => {
 
   // 友達になった人を取得
   useEffect(() => fetchFriends(),[fetchFriends])
-
+  
   // 所属してるグループを取得
   useEffect(() => fetchGroups(),[fetchGroups])
 
+  // 友達リクエストをキャンセル
+  const handleRefused = async(id: number) => {
+   await refusedFriendRequest(id)
+   fetchRequestData(setFriendRequest)
+  }
+
+  // グループに移動
   const moveGroupPage = (id: number) => history.push(`/group/${id}`)
 
+  // リクエストを許可
+  const handleAcceptRequest = async (id: number) => {
+    await acceptRequest(id)
+    history.push(`group/${id}`)
+  }
+
+  // グループリクエストを拒否
+  const handleRefusedToEnter = async (id: number) => {
+    await refusedToEnter(id)
+    fetchGroups()
+  }
+  console.log(inviteGroups);
+  
   return (
       <>
         <Flex>
-          <Box py={12} px={6} minWidth={'xl'}>
+          <Box py={12} px={6} minWidth={'md'}>
             <Flex justify="center">
               <Avatar size={'2xl'}></Avatar>
             </Flex>
@@ -71,8 +97,9 @@ const Mypage: React.VFC = () => {
           <Tabs isFitted variant="enclosed" minWidth={'4xl'}>
             <TabList mb="1em">
               <Tab>友達リスト</Tab>
-              <Tab>友達リクエスト</Tab>
               <Tab>所属グループ</Tab>
+              <Tab>友達リクエスト</Tab>
+              <Tab>グループリクエスト</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
@@ -94,34 +121,9 @@ const Mypage: React.VFC = () => {
               </TabPanel>
               <TabPanel>
                 {
-                  friendRequest.length ?
-                    friendRequest.map((user: User) => {
-                      return(
-                        <>
-                          <Box mx={'auto'} maxW={'md'} pt={12} pb={4} textAlign="center" boxShadow={'xl'} mt={8}>
-                            <Text fontSize={'lg'} color={'gray.600'} >{user.name}さんから友達リクエストがあります。</Text>
-                            <Button
-                              bg={'orange.300'}
-                              _hover={{
-                                bg: 'orange.400',
-                              }}
-                              mt={3}
-                              onClick={() => handleApproval(user.id)}>
-                                承諾
-                            </Button>
-                          </Box>
-                        </>
-                      )
-                    })
-                  :
-                    <Box mx={'auto'} maxW={'lg'} textAlign={'center'}>友達リクエストはありません</Box>
-                }
-              </TabPanel>
-              <TabPanel>
-                {
-                  groups.length ? 
-                    groups.map((group: Group) => (
-                      <>
+                  acceptedUsers.length ? 
+                  joinGroups.map((group: Group) => (
+                    <>
                       <Flex key={group.id} py={7} textAlign='center' alignItems="center" >
                         <ChatIcon color='teal.300'mr={4} />
                         <Text 
@@ -138,6 +140,75 @@ const Mypage: React.VFC = () => {
                     ))
                   :
                     <Box mx={'auto'} maxW={'lg'} textAlign={'center'}>所属してるグループはまだありません</Box>
+                }
+              </TabPanel>
+              <TabPanel>
+                {
+                  friendRequest.length ?
+                    friendRequest.map((user: User) => {
+                      return(
+                        <>
+                          <Box mx={'auto'} maxW={'md'} pt={12} pb={4} textAlign="center" boxShadow={'xl'} mt={8}>
+                            <Text fontSize={'lg'} color={'gray.600'} >{user.name}さんから友達リクエストがあります</Text>
+                            <Button
+                              bg={'teal.300'}
+                              _hover={{
+                                bg: 'teal.400',
+                              }}
+                              mt={3}
+                              mr={8}
+                              onClick={() => handleApproval(user.id)}>
+                                友達になる
+                            </Button>
+                            <Button
+                              mt={3}
+                              onClick={() => handleRefused(user.id)}>
+                                キャンセル
+                            </Button>
+                          </Box>
+                        </>
+                      )
+                    })
+                  :
+                    <Box mx={'auto'} maxW={'lg'} textAlign={'center'}>友達リクエストはありません</Box>
+                }
+              </TabPanel>
+              <TabPanel>
+                {
+                  pendingUsers.length ?
+                  inviteGroups.map((group: Group) => (
+                    <>
+                      <Box mx={'auto'} maxW={'md'} pb={4} textAlign="center" boxShadow={'xl'} mt={8}>
+                        <Text 
+                          fontSize={'lg'} 
+                          p={3}
+                          mr={6}
+                          >
+                          {`${group.createUser}さんから${group.name}というグループに招待されました`}
+                        </Text>
+                        <Button
+                          cursor="pointer" 
+                          mr={6}
+                          onClick={() => handleAcceptRequest(group.id)}
+                          bg={'teal.300'}
+                          _hover={{
+                            bg: 'teal.400',
+                          }}
+                        >
+                          入室する
+                        </Button>
+                        <Button
+                          cursor="pointer" 
+                          onClick={() => handleRefusedToEnter(group.id)}
+                          >
+                          キャンセル
+                        </Button>
+                      </Box>
+                      <Divider />
+                    </>
+                  ))
+                  :
+                    <Box mx={'auto'} maxW={'lg'} textAlign={'center'}>リクエストはありません</Box>
                 }
               </TabPanel>
             </TabPanels>

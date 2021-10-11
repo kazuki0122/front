@@ -1,10 +1,13 @@
 import client from "api/registration/client"
 import Cookies from "js-cookie"
-import { MessageParams } from "types/message"
+import { RuleParams } from "types/rule"
 
-// メッセージの作成
-export const createMessageData = (id: number, params: MessageParams) => {
-  return client.post(`/groups/${id}/messages`, params, {
+// ルールの取得
+export const fetchRulesData = (id: number) => {
+  return client.get('rules', {
+    params: {
+      id: id
+    },
     headers: {
       'access-token': Cookies.get("_access_token"),
       client: Cookies.get("_client"),
@@ -13,9 +16,9 @@ export const createMessageData = (id: number, params: MessageParams) => {
   })
 }
 
-// メッセージの取得
-export const fetchMessageData = (id: number) => {
-  return client.get(`/groups/${id}/messages`, {
+// ルールの作成
+export const createRulesData = (params: RuleParams) => {
+  return client.post('rules', params, {
     headers: {
       'access-token': Cookies.get("_access_token"),
       client: Cookies.get("_client"),

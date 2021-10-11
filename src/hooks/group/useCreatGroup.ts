@@ -1,6 +1,6 @@
 import { createGroupData } from "api/group/group"
 import { useHistory } from "react-router-dom";
-import useMessage from 'hooks/useMessage';
+import useMessage from 'hooks/info/useMessage';
 import { GroupParams } from "types/group";
 
 const useCreatGroup = () => {
