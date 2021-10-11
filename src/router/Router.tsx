@@ -12,7 +12,6 @@ import Page404 from "components/pages/Page404"
 
 const Router: React.VFC = () => {
   const { isSignedIn, loading } = useContext(AuthContext)
-
   return (
     <Switch>
       <Route path='/login'>
@@ -29,7 +28,7 @@ const Router: React.VFC = () => {
           render={() => (
             // 自分がそのグループに所属していようがしていなかろうが、この条件の書き方だとurlで遷移できなくなってる。。
             <Switch>
-              {isSignedIn || loading ? 
+              {isSignedIn || loading ?
                 <>
                   <Route exact path='/group/:id'>
                     <Group />
