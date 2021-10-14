@@ -9,6 +9,9 @@ import {loadStripe} from '@stripe/stripe-js';
 
 const stripePromise = loadStripe(`${process.env.REACT_APP_DEV_PUBLIC_KEY}`);
 
+console.log('stripeの環境変数', stripePromise);
+
+
 ReactDOM.render(
   <React.StrictMode>
     <ColorModeScript />
