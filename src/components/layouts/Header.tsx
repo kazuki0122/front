@@ -10,7 +10,6 @@ import HamburgerMenu from './HamburgerMenu';
 
 const Header: React.VFC = () => {
   const { isOpen, onOpen, onClose} = useDisclosure()
-
   return (
     <Flex
       bg="orange.300"
