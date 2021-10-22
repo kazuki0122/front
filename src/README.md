@@ -1,59 +1,44 @@
-This project was bootstrapped with
-[Create React App](https://github.com/facebook/create-react-app).
+# EarlyBird（アプリ解説編）
 
-## Available Scripts
+技術選定・実装振り返り編は[こちら](https://github.com/kazuki0122/api)。
 
-In the project directory, you can run:
+## アプリについて
 
-### `yarn start`
+### アプリ概要
 
-Runs the app in the development mode.<br /> Open
-[http://localhost:3000](http://localhost:3000) to view it in the browser.
+本アプリは、寝坊防止アプリです。友達同士でグループを作り、起床時間と起きれなかった際の罰金額を決めます。  
+設定した起床時間から30分の間にグループにいる全員がメッセージを送信した場合は課金は発生しませんが、一人でもメッセージを送れないと全員課金されるようになっています。  
 
-The page will reload if you make edits.<br /> You will also see any lint errors
-in the console.
+### URL
 
-### `yarn test`
+[https://early-bird0122.netlify.app/](https://early-bird0122.netlify.app/)
 
-Launches the test runner in the interactive watch mode.<br /> See the section
-about
-[running tests](https://facebook.github.io/create-react-app/docs/running-tests)
-for more information.
+### テスト用アカウント
 
-### `yarn build`
+email：test@test.com  
+password：111111
 
-Builds the app for production to the `build` folder.<br /> It correctly bundles
-React in production mode and optimizes the build for the best performance.
+## アプリ詳細
 
-The build is minified and the filenames include the hashes.<br /> Your app is
-ready to be deployed!
+### 作成動機
 
-See the section about
-[deployment](https://facebook.github.io/create-react-app/docs/deployment) for
-more information.
+私には前職で朝活を一緒にやる友人がいました。その友人も私も夜型人間で、中々朝起きれずにいました。  
+そこでいつもの朝活に罰則をつけて緊張感を持たせるようにしました。  
+具体的には、朝活の開始時間までに連絡をし、時間までに連絡がなければ、相手にコーヒ代を奢るということをやっていました。  
+こういった罰則をつけることで苦手だった朝も次第に起きれるようになりました。  
+また、私たち以外にも、罰則をつけて朝活をしている人達が何人かいた為、朝起きれないことを悩みにしてる人は多いのではないかと思いました。  
+実際に、寝坊防止アプリで同じようなものがないか確認して見ましたが、個人にフォーカスされたアプリがほとんどで、複数人で使うアプリは存在していなかったため今回実装することに致しました。  
 
-### `yarn eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### 本アプリの使い方
 
-If you aren’t satisfied with the build tool and configuration choices, you can
-`eject` at any time. This command will remove the single build dependency from
-your project.
-
-Instead, it will copy all the configuration files and the transitive
-dependencies (webpack, Babel, ESLint, etc) right into your project so you have
-full control over them. All of the commands except `eject` will still work, but
-they will point to the copied scripts so you can tweak them. At this point
-you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for
-small and middle deployments, and you shouldn’t feel obligated to use this
-feature. However we understand that this tool wouldn’t be useful if you couldn’t
-customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the
-[Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+ユーザーの登録をします。その際にクレジットカードも登録します。  
+次にグループを作成するために友達を追加します。  
+ヘッダーのメニューを開き、ユーザー一覧を表示します。  
+アプリに登録してるユーザー一覧が見れるのでそこから友達申請をします。
+次に、友達を招待してグループを作成します。  
+招待された友達は招待されたグループに入室します。  
+グループの中で、起きる時間と罰金額を設定します。  
+グループ内にある設定時間の確認というボタンを押すと、設定時間と罰金額が表示されます。  
+設定した起きる時間から30分の間にグループ内でメッセージを送ります。全員が30分の間に送れば罰金は発生しませんが、一人でもメッセージを送れなかった場合全員罰金を支払うことになります。  
+また、ユーザーが起きれたかどうかはバッチ処理を使って決まった時刻に判定しています。

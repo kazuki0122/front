@@ -6,7 +6,6 @@ import { GroupParams } from "types/group";
 const useCreatGroup = () => {
   const { showMessage } = useMessage()
   const history = useHistory()
-
   const createGroup = (params: GroupParams) => {
     createGroupData(params)
     .then((res) => {
