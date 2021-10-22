@@ -24,7 +24,6 @@ const Mypage: React.VFC = () => {
   const {acceptRequest} = useAcceptRequest()
   const {refusedToEnter} = useRefusedToEnter()
   const {refusedFriendRequest} = useRefusedFriendRequest()
-
   // 友達リクエストを取得
   useEffect(() => {
     fetchRequestData(setFriendRequest)
